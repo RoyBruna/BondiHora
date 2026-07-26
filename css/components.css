@@ -30,23 +30,21 @@
 .brand-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: 14px;
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
-  color: var(--white);
-  box-shadow: 0 4px 14px var(--primary-glow), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.25);
-  outline: 1px solid var(--border-color);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  padding: 4px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
   overflow: hidden;
 }
 
 .brand-icon:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px var(--primary-glow);
+  transform: translateY(-1px);
+  border-color: var(--primary);
 }
 
 .brand-logo-img {
@@ -142,9 +140,7 @@
 }
 
 .hero-title span {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
 }
 
 .hero-subtitle {
@@ -330,19 +326,20 @@
 }
 
 .featured-bus-card {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(13, 148, 136, 0.08) 100%), var(--surface-card);
-  border: 2px solid var(--primary);
+  background: var(--surface-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary);
   border-radius: var(--radius-lg);
   padding: 1.8rem;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .featured-bus-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .featured-badge {

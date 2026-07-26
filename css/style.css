@@ -43,16 +43,16 @@
   --border-color: rgba(226, 232, 240, 0.9);
   --border-highlight: rgba(37, 99, 235, 0.3);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 8px 25px rgba(37, 99, 235, 0.2);
+  /* Shadows - Subtle & Clean */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 10px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 4px 12px rgba(37, 99, 235, 0.15);
 
-  /* Border Radii */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  /* Border Radii - More structured */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --radius-full: 9999px;
 
   /* Typography */
