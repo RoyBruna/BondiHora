@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horarios de Colectivos - Terminal de Ómnibus</title>
+  <meta name="description" content="Consulta rápida de horarios de colectivos, salidas desde la terminal, frecuencias próximas y planillas de colectivos entre Tupungato, Tunuyán, San Carlos y Mendoza.">
+  <meta name="theme-color" content="#2563eb">
+  
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- BARRA DE NAVEGACION -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 16c0 1.1.9 2 2 2h1v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h1c1.1 0 2-.9 2-2V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>Terminal Colectivos</h1>
+          <span id="current-day-badge">Lunes a Viernes</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="time-badge">
+          <span class="pulse-dot"></span>
+          <span id="live-clock">00:00:00</span>
+        </div>
+        <button id="theme-toggle" class="btn-icon" aria-label="Cambiar tema visual">Modo Oscuro</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <div class="container">
+      
+      <!-- ENCABEZADO -->
+      <section class="hero-section">
+        <h2 class="hero-title">Consulta de <span>Salidas y Horarios</span></h2>
+        <p class="hero-subtitle">Encuentra el próximo colectivo en salir desde la terminal o consulta la planilla completa de frecuencias.</p>
+      </section>
+
+      <!-- PESTAÑAS DE VISTA -->
+      <div class="view-tabs">
+        <button id="tab-upcoming" class="tab-btn active">
+          Próximas Salidas
+        </button>
+        <button id="tab-timetable" class="tab-btn">
+          Planilla Completa
+        </button>
+      </div>
+
+      <!-- BUSCADOR -->
+      <section class="search-card">
+        <form class="search-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="select-origin">Origen (Desde)</label>
+            <div class="select-wrapper">
+              <select id="select-origin"></select>
+            </div>
+          </div>
+
+          <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino">
+            ⇄
+          </button>
+
+          <div class="form-group">
+            <label for="select-destination">Destino (Hacia)</label>
+            <div class="select-wrapper">
+              <select id="select-destination"></select>
+            </div>
+          </div>
+
+          <button id="btn-search" class="btn-search" type="button">
+            Buscar
+          </button>
+        </form>
+      </section>
+
+      <!-- PROXIMAS SALIDAS -->
+      <section id="view-upcoming" class="results-container">
+        <div id="featured-bus-container"></div>
+        <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--neutral-700);">Siguientes salidas de hoy:</h3>
+        <div id="upcoming-list-container" class="upcoming-list"></div>
+      </section>
+
+      <!-- PLANILLA COMPLETA -->
+      <section id="view-timetable" class="timetable-container" style="display: none;">
+        <div class="timetable-header">
+          <h3 id="timetable-title">Planilla de Horarios</h3>
+          
+          <div class="day-selector">
+            <button class="day-btn active" data-day="weekdays">Lunes a Viernes</button>
+            <button class="day-btn" data-day="saturdays">Sábados</button>
+            <button class="day-btn" data-day="sundays">Domingos / Feriados</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="timetable">
+            <thead>
+              <tr>
+                <th>Hora Salida</th>
+                <th>Empresa</th>
+                <th>Servicio</th>
+                <th>Recorrido / Vía</th>
+                <th>Tarifa Est.</th>
+              </tr>
+            </thead>
+            <tbody id="timetable-body">
+              <!-- Se completa con Javascript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- PIE DE PAGINA -->
+  <footer class="footer">
+    <div class="container">
+      <p>Terminal de Ómnibus - Consulta de Horarios de Colectivos</p>
+      <p style="margin-top: 0.3rem; opacity: 0.75;">Proyecto estático para GitHub y Netlify.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/scheduleEngine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

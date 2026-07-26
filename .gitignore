@@ -1,0 +1,5 @@
+# Scratch and temporary files
+scratch/
+.gemini/
+.antigravity/
+*.log
