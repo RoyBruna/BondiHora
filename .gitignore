@@ -1,5 +1,21 @@
-# Scratch and temporary files
-scratch/
-.gemini/
-.antigravity/
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production & Builds
+dist/
+build/
+.output/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Logs and environment
 *.log
+.env
+.env.local
+
+# Editor directories
+.vscode/
+.idea/
