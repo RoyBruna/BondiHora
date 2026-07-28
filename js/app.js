@@ -24,6 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeView = 'upcoming';
   let selectedDayType = ScheduleEngine.getDayType();
+  let mapInstance = null;
+  let mapTileLayer = null;
+
+  const TERMINAL_LOCATIONS = [
+    { id: 'tupungato', name: 'Tupungato', desc: 'Terminal de Ómnibus de Tupungato', lat: -33.36608420003635, lng: -69.14787273564028, url: 'https://maps.app.goo.gl/zGyChAWt2tQDAA1b9' },
+    { id: 'tunuyan', name: 'Tunuyán', desc: 'Terminal de Ómnibus de Tunuyán', lat: -33.57780941689543, lng: -69.01192117013841, url: 'https://maps.app.goo.gl/R8knAxZyuLRDZEkv7' },
+    { id: 'mendoza', name: 'Mendoza Capital', desc: 'Terminal del Sol - Capital Mendoza', lat: -32.894226445291174, lng: -68.83052462503562, url: 'https://maps.app.goo.gl/1mnTW6ydYHUCuXeL8' },
+    { id: 'eugeniobustos', name: 'Eugenio Bustos', desc: 'Terminal / Parada Eugenio Bustos', lat: -33.778114102311505, lng: -69.06083718993537, url: 'https://maps.app.goo.gl/3LivNi6uE2kggt7U8' },
+    { id: 'laconsulta', name: 'La Consulta', desc: 'Terminal de Ómnibus La Consulta', lat: -33.736416395176, lng: -69.11783680748712, url: 'https://maps.app.goo.gl/PmxhWL5aL2bWBUMW7' },
+    { id: 'vistaflores', name: 'Vista Flores', desc: 'Paradas Principales (Sin terminal fija)', lat: -33.65275631521484, lng: -69.15589259665562, url: 'https://www.google.com/maps/search/?api=1&query=-33.65275631521484,-69.15589259665562' },
+    { id: 'pareditas', name: 'Pareditas', desc: 'Paradas Principales (Sin terminal fija)', lat: -33.93992086972068, lng: -69.07876518267187, url: 'https://www.google.com/maps/search/?api=1&query=-33.93992086972068,-69.07876518267187' }
+  ];
 
   initApp();
 
@@ -33,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTheme();
     setupEventListeners();
     renderResults();
+    initMap();
   }
 
   // Cargar ciudades en los select
@@ -288,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
+        updateMapTiles();
       });
     }
   }
@@ -296,5 +310,88 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleBtn) {
       themeToggleBtn.textContent = theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
     }
+  }
+
+  // MAPA INTERACTIVO DE TERMINALES (Leaflet.js)
+
+  function initMap() {
+    const mapElement = document.getElementById('terminal-map');
+    if (!mapElement || typeof L === 'undefined') return;
+
+    mapInstance = L.map('terminal-map', {
+      scrollWheelZoom: false
+    }).setView([-33.35, -69.0], 9);
+
+    updateMapTiles();
+    populateMapChips();
+    addTerminalMarkers();
+  }
+
+  function updateMapTiles() {
+    if (!mapInstance) return;
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    
+    if (mapTileLayer) {
+      mapInstance.removeLayer(mapTileLayer);
+    }
+
+    const tileUrl = currentTheme === 'dark'
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    mapTileLayer = L.tileLayer(tileUrl, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(mapInstance);
+
+    setTimeout(() => {
+      mapInstance.invalidateSize();
+    }, 250);
+  }
+
+  function addTerminalMarkers() {
+    TERMINAL_LOCATIONS.forEach(term => {
+      const gmapsUrl = term.url || `https://www.google.com/maps/search/?api=1&query=${term.lat},${term.lng}`;
+      const popupHtml = `
+        <div class="popup-content">
+          <h4>${term.name}</h4>
+          <p>${term.desc}</p>
+          <a href="${gmapsUrl}" target="_blank" rel="noopener">Abrir en Google Maps</a>
+        </div>
+      `;
+
+      const customIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: `<div class="pin-inner">📍</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -30]
+      });
+
+      L.marker([term.lat, term.lng], { icon: customIcon })
+        .addTo(mapInstance)
+        .bindPopup(popupHtml);
+    });
+  }
+
+  function populateMapChips() {
+    const chipContainer = document.getElementById('map-chip-list');
+    if (!chipContainer) return;
+    
+    chipContainer.innerHTML = TERMINAL_LOCATIONS.map((term, index) => `
+      <button class="chip-btn ${index === 0 ? 'active' : ''}" data-lat="${term.lat}" data-lng="${term.lng}">
+        ${term.name}
+      </button>
+    `).join('');
+
+    chipContainer.querySelectorAll('.chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        chipContainer.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const lat = parseFloat(btn.dataset.lat);
+        const lng = parseFloat(btn.dataset.lng);
+        mapInstance.flyTo([lat, lng], 13, { duration: 1.2 });
+      });
+    });
   }
 });
