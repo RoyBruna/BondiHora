@@ -152,8 +152,56 @@
     </div>
   </footer>
 
+  <!-- MODAL DE CONFIGURACION DE ALARMA DE VIAJE -->
+  <div id="alarm-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Programar Alarma de Viaje</h3>
+        <button id="close-alarm-modal" class="btn-close" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="alarm-bus-info">
+          <div class="alarm-bus-time" id="modal-bus-time">18:30 hs</div>
+          <div class="alarm-bus-details">
+            <h4 id="modal-bus-company">CATA Internacional</h4>
+            <p id="modal-bus-route">Tupungato → Tunuyán (Vía Cordón)</p>
+          </div>
+        </div>
+
+        <label class="alarm-label">¿Con cuánta anticipación deseas que te avisemos?</label>
+        <div class="alarm-options" id="alarm-options-container">
+          <button class="alarm-opt-btn active" data-offset="10">10 minutos antes (Recomendado)</button>
+          <button class="alarm-opt-btn" data-offset="15">15 minutos antes</button>
+          <button class="alarm-opt-btn" data-offset="30">30 minutos antes</button>
+          <button class="alarm-opt-btn" data-offset="0">En la hora exacta</button>
+        </div>
+
+        <div class="alarm-sound-notice">
+          <span class="bell-icon">🔔</span> Te avisaremos con sonido y notificación en tu pantalla cuando sea el momento de salir.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancel-alarm-modal-btn" class="btn-secondary">Cancelar</button>
+        <button id="confirm-alarm-btn" class="btn-primary">Activar Alarma</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL DE ALARMA ACTIVA (BARRA FLOTANTE) -->
+  <div id="active-alarm-toast" class="active-alarm-toast" style="display: none;">
+    <div class="alarm-toast-content">
+      <span class="toast-bell">🔔</span>
+      <div class="toast-text">
+        <strong id="toast-alarm-time">Alarma a las 18:20 hs</strong>
+        <span id="toast-alarm-desc">Colectivo CATA (18:30 hs)</span>
+      </div>
+      <button id="cancel-active-alarm-btn" class="btn-toast-delete" title="Cancelar alarma">Cancelar</button>
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/scheduleEngine.js"></script>
+  <script src="js/alarmEngine.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

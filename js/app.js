@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupClock();
     setupTheme();
     setupEventListeners();
+    setupAlarmModalListeners();
     renderResults();
     initMap();
   }
@@ -213,8 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="meta-value">${nextBus.via}</span>
           </div>
           <div class="meta-item">
-            <span class="meta-label">Tarifa Aprox.</span>
-            <span class="meta-value">Próximamente</span>
+            <span class="meta-label">Alarma</span>
+            <span class="meta-value">
+              <button class="btn-alarm-trigger" data-time="${nextBus.time}" data-company="${nextBus.company}" data-route="${originName} → ${destName} (${nextBus.via})">🔔 Programar Alarma</button>
+            </span>
           </div>
         </div>
       </div>
@@ -230,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="bus-badges">
             <span class="badge ${bus.companyBadge}">${bus.via}</span>
+            <button class="btn-alarm-trigger" data-time="${bus.time}" data-company="${bus.company}" data-route="${originName} → ${destName} (${bus.via})">🔔 Avisarme</button>
           </div>
         </div>
       `).join('');
@@ -281,10 +285,111 @@ document.addEventListener('DOMContentLoaded', () => {
           <td><strong>${row.company}</strong></td>
           <td>${row.service}</td>
           <td>${row.via}</td>
-          <td>Próximamente</td>
+          <td>
+            <button class="btn-alarm-trigger" data-time="${row.time}" data-company="${row.company}" data-route="${originName} → ${destName} (${row.via})">🔔 Avisarme</button>
+          </td>
         </tr>
       `;
     }).join('');
+  }
+
+  // MANEJO DE MODAL Y ALERTAS DE ALARMA DE VIAJE
+  let selectedAlarmData = null;
+  let selectedOffsetMinutes = 10;
+
+  function setupAlarmModalListeners() {
+    const alarmModal = document.getElementById('alarm-modal');
+    const closeBtn = document.getElementById('close-alarm-modal');
+    const cancelModalBtn = document.getElementById('cancel-alarm-modal-btn');
+    const confirmBtn = document.getElementById('confirm-alarm-btn');
+    const optionsContainer = document.getElementById('alarm-options-container');
+    const cancelActiveAlarmBtn = document.getElementById('cancel-active-alarm-btn');
+
+    document.addEventListener('click', (e) => {
+      const alarmBtn = e.target.closest('.btn-alarm-trigger');
+      if (alarmBtn) {
+        const time = alarmBtn.dataset.time;
+        const company = alarmBtn.dataset.company;
+        const route = alarmBtn.dataset.route;
+
+        selectedAlarmData = { departureTime: time, company, route };
+        
+        const modalTime = document.getElementById('modal-bus-time');
+        const modalCompany = document.getElementById('modal-bus-company');
+        const modalRoute = document.getElementById('modal-bus-route');
+
+        if (modalTime) modalTime.textContent = `${time} hs`;
+        if (modalCompany) modalCompany.textContent = company;
+        if (modalRoute) modalRoute.textContent = route;
+
+        if (alarmModal) alarmModal.style.display = 'flex';
+      }
+    });
+
+    const closeModal = () => {
+      if (alarmModal) alarmModal.style.display = 'none';
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
+
+    if (optionsContainer) {
+      optionsContainer.querySelectorAll('.alarm-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          optionsContainer.querySelectorAll('.alarm-opt-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedOffsetMinutes = parseInt(btn.dataset.offset, 10);
+        });
+      });
+    }
+
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => {
+        if (!selectedAlarmData) return;
+        
+        AlarmEngine.setAlarm({
+          company: selectedAlarmData.company,
+          route: selectedAlarmData.route,
+          departureTime: selectedAlarmData.departureTime,
+          offsetMinutes: selectedOffsetMinutes
+        });
+
+        closeModal();
+        updateActiveAlarmToast();
+      });
+    }
+
+    if (cancelActiveAlarmBtn) {
+      cancelActiveAlarmBtn.addEventListener('click', () => {
+        AlarmEngine.cancelAlarm();
+        updateActiveAlarmToast();
+      });
+    }
+
+    updateActiveAlarmToast();
+    AlarmEngine.startMonitoring(() => {
+      updateActiveAlarmToast();
+    });
+  }
+
+  function updateActiveAlarmToast() {
+    const toast = document.getElementById('active-alarm-toast');
+    const toastTime = document.getElementById('toast-alarm-time');
+    const toastDesc = document.getElementById('toast-alarm-desc');
+    if (!toast) return;
+
+    const activeAlarm = AlarmEngine.getActiveAlarm();
+    if (activeAlarm) {
+      const alarmDate = new Date(activeAlarm.alarmTimeMs);
+      const h = String(alarmDate.getHours()).padStart(2, '0');
+      const m = String(alarmDate.getMinutes()).padStart(2, '0');
+
+      if (toastTime) toastTime.textContent = `Alarma activa a las ${h}:${m} hs`;
+      if (toastDesc) toastDesc.textContent = `${activeAlarm.company} (${activeAlarm.departureTime} hs)`;
+      toast.style.display = 'block';
+    } else {
+      toast.style.display = 'none';
+    }
   }
 
   // Tema claro/oscuro
