@@ -1,21 +1,18 @@
 // Logica para calculo de horarios y filtros
 
 const ScheduleEngine = {
-  // Convierte hora HH:MM a minutos
   timeToMinutes(timeStr) {
     if (!timeStr) return 0;
     const [hours, minutes] = timeStr.split(':').map(Number);
     return hours * 60 + minutes;
   },
 
-  // Convierte minutos a texto HH:MM
   minutesToTime(totalMinutes) {
     const hours = Math.floor(totalMinutes / 60) % 24;
     const mins = totalMinutes % 60;
     return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
   },
 
-  // Obtiene el tipo de dia actual
   getDayType(date = new Date()) {
     const day = date.getDay();
     if (day === 0) return 'sundays';
@@ -23,7 +20,6 @@ const ScheduleEngine = {
     return 'weekdays';
   },
 
-  // Nombre legible del tipo de dia
   getDayTypeName(dayType) {
     const names = {
       weekdays: 'Lunes a Viernes (Habiles)',
@@ -33,7 +29,6 @@ const ScheduleEngine = {
     return names[dayType] || names.weekdays;
   },
 
-  // Calcula el tiempo faltante en texto
   formatCountdown(targetMinutes, currentMinutes) {
     let diff = targetMinutes - currentMinutes;
     if (diff < 0) {
@@ -50,8 +45,24 @@ const ScheduleEngine = {
     return `Sale en ${hours} hs ${mins} min`;
   },
 
-  // Busca las proximas salidas ordenadas por hora
-  getNextDepartures(originId, destinationId, referenceDate = new Date()) {
+  getEstimatedDuration(originId, destinationId) {
+    if (!originId || !destinationId) return '45 min';
+    const pair = [originId, destinationId].sort().join('-');
+    const durations = {
+      'tupungato-tunuyan': '40 min',
+      'mendoza-tupungato': '1h 20 min',
+      'mendoza-tunuyan': '1h 30 min',
+      'eugeniobustos-mendoza': '1h 45 min',
+      'laconsulta-mendoza': '2h 00 min',
+      'laconsulta-tunuyan': '35 min',
+      'eugeniobustos-tunuyan': '30 min',
+      'pareditas-tunuyan': '45 min',
+      'vistaflores-tunuyan': '25 min'
+    };
+    return durations[pair] || '45 min';
+  },
+
+  getNextDepartures(originId, destinationId, referenceDate = new Date(), filterType = 'all') {
     const currentMinutes = referenceDate.getHours() * 60 + referenceDate.getMinutes();
     const dayType = this.getDayType(referenceDate);
 
@@ -62,6 +73,7 @@ const ScheduleEngine = {
     if (matchingRoutes.length === 0) return [];
 
     let departures = [];
+    const durationStr = this.getEstimatedDuration(originId, destinationId);
 
     matchingRoutes.forEach(route => {
       const companyInfo = BUS_DATA.companies[route.company] || { name: 'Colectivo', badge: 'badge-primary' };
@@ -69,6 +81,10 @@ const ScheduleEngine = {
 
       timesList.forEach(item => {
         const itemMins = this.timeToMinutes(item.time);
+        const diff = itemMins >= currentMinutes ? (itemMins - currentMinutes) : (itemMins - currentMinutes + 1440);
+
+        if (filterType === '2hs' && diff > 120) return;
+        if (filterType === 'expreso' && !item.service.toLowerCase().includes('expreso')) return;
         
         departures.push({
           time: item.time,
@@ -76,12 +92,14 @@ const ScheduleEngine = {
           service: item.service,
           via: item.via,
           company: companyInfo.name,
+          companyShort: companyInfo.short || companyInfo.name,
           companyBadge: companyInfo.badge,
           line: route.line,
           platform: route.platform,
-          price: route.estimatedPrice,
+          price: route.estimatedPrice || '$1.500',
+          duration: durationStr,
           routeId: route.id,
-          diff: itemMins >= currentMinutes ? (itemMins - currentMinutes) : (itemMins - currentMinutes + 1440)
+          diff: diff
         });
       });
     });

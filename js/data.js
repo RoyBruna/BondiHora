@@ -29,36 +29,8 @@ const BUS_DATA = {
     {
         "id": "pareditas",
         "name": "Pareditas"
-    },
-    {
-        "id": "losarboles",
-        "name": "Los Árboles"
-    },
-    {
-        "id": "barbero",
-        "name": "Barbero"
-    },
-    {
-        "id": "laspintadas",
-        "name": "Las Pintadas"
-    },
-    {
-        "id": "chilecito",
-        "name": "Chilecito"
-    },
-    {
-        "id": "manzano",
-        "name": "Manzano Histórico"
-    },
-    {
-        "id": "laprimavera",
-        "name": "La Primavera"
-    },
-    {
-        "id": "campolosandes",
-        "name": "Campo de los Andes"
     }
-],
+  ],
 
   companies: {
     cata: { name: 'CATA Internacional', short: 'CATA', badge: 'badge-primary' },

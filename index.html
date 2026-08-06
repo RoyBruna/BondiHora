@@ -11,13 +11,12 @@
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
-  <!-- Leaflet Maps CSS & JS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- BARRA DE NAVEGACION -->
   <header class="navbar">
     <div class="container nav-content">
       <div class="brand">
@@ -36,74 +35,77 @@
           <span class="time-label">HORA</span>
           <span id="live-clock">00:00<span class="clock-seconds">:00</span></span>
         </div>
-        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual">Modo Oscuro</button>
+        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)">Modo Oscuro</button>
       </div>
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main>
+  <main class="py-4">
     <div class="container">
-      
-      <!-- ENCABEZADO -->
-      <section class="hero-section">
-        <h2 class="hero-title">Consulta de <span>Salidas y Horarios</span></h2>
-        <p class="hero-subtitle">Encuentra el próximo colectivo en salir desde la terminal o consulta la planilla completa de frecuencias.</p>
-      </section>
 
-      <!-- PESTAÑAS DE VISTA -->
-      <div class="view-tabs">
-        <button id="tab-upcoming" class="tab-btn active">
-          Próximas Salidas
-        </button>
-        <button id="tab-timetable" class="tab-btn">
-          Planilla Completa
-        </button>
-      </div>
-
-      <!-- BUSCADOR -->
-      <section class="search-card">
+      <!-- BUSCADOR COMPACTO DE ALTA VELOCIDAD -->
+      <section class="search-card mb-4" aria-label="Buscador de colectivos">
         <form class="search-grid" onsubmit="return false;">
           <div class="form-group">
-            <label for="select-origin">Origen (Desde)</label>
+            <label for="select-origin" class="sr-only">Origen (Desde)</label>
+            <span class="field-label-text">ORIGEN</span>
             <div class="select-wrapper">
-              <select id="select-origin"></select>
+              <select id="select-origin" aria-label="Seleccionar localidad de origen"></select>
             </div>
           </div>
 
-          <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino">
+          <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino" aria-label="Intercambiar origen y destino">
             ⇄
           </button>
 
           <div class="form-group">
-            <label for="select-destination">Destino (Hacia)</label>
+            <label for="select-destination" class="sr-only">Destino (Hacia)</label>
+            <span class="field-label-text">DESTINO</span>
             <div class="select-wrapper">
-              <select id="select-destination"></select>
+              <select id="select-destination" aria-label="Seleccionar localidad de destino"></select>
             </div>
           </div>
 
-          <button id="btn-search" class="btn-search" type="button">
+          <button id="btn-search" class="btn-search" type="button" aria-label="Buscar frecuencias">
             Buscar
           </button>
         </form>
       </section>
 
-      <!-- PROXIMAS SALIDAS -->
+      <!-- BARRA DE FILTROS RÁPIDOS Y PESTAÑAS -->
+      <div class="top-controls-bar">
+        <div class="view-tabs">
+          <button id="tab-upcoming" class="tab-btn active" aria-label="Ver próximas salidas">
+            Próximas Salidas
+          </button>
+          <button id="tab-timetable" class="tab-btn" aria-label="Ver planilla completa de horarios">
+            Planilla Completa
+          </button>
+        </div>
+
+        <div id="quick-filters" class="quick-filters-bar" aria-label="Filtros rápidos">
+          <button class="filter-chip active" data-filter="all" aria-label="Mostrar todas las salidas">Todas</button>
+          <button class="filter-chip" data-filter="2hs" aria-label="Mostrar salidas de las próximas 2 horas">Próximas 2hs</button>
+          <button class="filter-chip" data-filter="expreso" aria-label="Mostrar solo servicios expresos">Expresos</button>
+        </div>
+      </div>
+
+      <!-- VISTA PROXIMAS SALIDAS -->
       <section id="view-upcoming" class="results-container">
         <div id="featured-bus-container"></div>
-        <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--neutral-700);">Siguientes salidas de hoy:</h3>
+        <h3 class="section-subtitle">Siguientes frecuencias de hoy:</h3>
         <div id="upcoming-list-container" class="upcoming-list"></div>
       </section>
 
-      <!-- PLANILLA COMPLETA -->
+      <!-- VISTA PLANILLA COMPLETA -->
       <section id="view-timetable" class="timetable-container" style="display: none;">
         <div class="timetable-header">
           <h3 id="timetable-title">Planilla de Horarios</h3>
           
-          <div class="day-selector">
-            <button class="day-btn active" data-day="weekdays">Lunes a Viernes</button>
-            <button class="day-btn" data-day="saturdays">Sábados</button>
-            <button class="day-btn" data-day="sundays">Domingos / Feriados</button>
+          <div class="day-selector" aria-label="Seleccionar tipo de día">
+            <button class="day-btn active" data-day="weekdays" aria-label="Horarios de Lunes a Viernes">Lunes a Viernes</button>
+            <button class="day-btn" data-day="saturdays" aria-label="Horarios de Sábados">Sábados</button>
+            <button class="day-btn" data-day="sundays" aria-label="Horarios de Domingos y Feriados">Domingos / Feriados</button>
           </div>
         </div>
 
@@ -115,26 +117,21 @@
                 <th>Empresa</th>
                 <th>Servicio</th>
                 <th>Recorrido / Vía</th>
-                <th>Tarifa Est.</th>
+                <th style="text-align: center; width: 60px;">Alarma</th>
               </tr>
             </thead>
-            <tbody id="timetable-body">
-              <!-- Se completa con Javascript -->
-            </tbody>
+            <tbody id="timetable-body"></tbody>
           </table>
         </div>
       </section>
 
-      <!-- SECCION MAPA INTERACTIVO DE TERMINALES -->
       <section class="map-section">
         <div class="map-header">
           <div class="map-title-group">
             <h2>Ubicación de Terminales y Paradas</h2>
             <p>Explora en el mapa interactivo la ubicación exacta de las terminales y puntos de salida del Valle de Uco y Mendoza.</p>
           </div>
-          <div class="map-chip-list" id="map-chip-list">
-            <!-- Chips de terminales generados dinámicamente -->
-          </div>
+          <div class="map-chip-list" id="map-chip-list"></div>
         </div>
         <div class="map-container">
           <div id="terminal-map"></div>
@@ -144,7 +141,6 @@
     </div>
   </main>
 
-  <!-- PIE DE PAGINA -->
   <footer class="footer">
     <div class="container">
       <p>Terminal de Ómnibus - Consulta de Horarios de Colectivos</p>
@@ -152,7 +148,6 @@
     </div>
   </footer>
 
-  <!-- MODAL DE CONFIGURACION DE ALARMA DE VIAJE -->
   <div id="alarm-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-card">
       <div class="modal-header">
@@ -187,7 +182,6 @@
     </div>
   </div>
 
-  <!-- PANEL DE ALARMA ACTIVA (BARRA FLOTANTE) -->
   <div id="active-alarm-toast" class="active-alarm-toast" style="display: none;">
     <div class="alarm-toast-content">
       <span class="toast-bell">🔔</span>

@@ -1,5 +1,3 @@
-// Manejo de eventos y vista de la aplicacion
-
 document.addEventListener('DOMContentLoaded', () => {
   const selectOrigin = document.getElementById('select-origin');
   const selectDestination = document.getElementById('select-destination');
@@ -24,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeView = 'upcoming';
   let selectedDayType = ScheduleEngine.getDayType();
+  let currentFilter = 'all';
   let mapInstance = null;
   let mapTileLayer = null;
 
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMap();
   }
 
-  // Cargar ciudades en los select
   function populateCitySelects() {
     selectOrigin.innerHTML = '';
     selectDestination.innerHTML = '';
@@ -70,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     selectDestination.value = 'tunuyan';
   }
 
-  // Actualizar reloj y tipo de dia
   function setupClock() {
     function updateClock() {
       const now = new Date();
@@ -91,9 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateClock, 1000);
   }
 
-  // Eventos de botones e inputs
   function setupEventListeners() {
+    let rotation = 0;
     btnSwap.addEventListener('click', () => {
+      rotation += 180;
+      btnSwap.style.transform = `rotate(${rotation}deg)`;
       const temp = selectOrigin.value;
       selectOrigin.value = selectDestination.value;
       selectDestination.value = temp;
@@ -123,6 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
       renderResults();
     });
 
+    const filterChips = document.querySelectorAll('#quick-filters .filter-chip');
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFilter = chip.dataset.filter;
+        renderResults();
+      });
+    });
+
     dayButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         dayButtons.forEach(b => b.classList.remove('active'));
@@ -136,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     selectDestination.addEventListener('change', renderResults);
   }
 
-  // Renderizar segun pestaña activa
   function renderResults() {
     const origin = selectOrigin.value;
     const destination = selectDestination.value;
@@ -153,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Aviso cuando origen y destino son iguales
   function showSameCityWarning() {
     featuredCardContainer.innerHTML = `
       <div class="empty-state">
@@ -162,18 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
     upcomingListContainer.innerHTML = '';
-    timetableBody.innerHTML = `<tr><td colspan="6" class="empty-state">Selecciona un origen y destino diferentes.</td></tr>`;
+    timetableBody.innerHTML = `<tr><td colspan="5" class="empty-state">Selecciona un origen y destino diferentes.</td></tr>`;
   }
 
-  // Renderizar proximas salidas
   function renderUpcomingDepartures(origin, destination) {
-    const departures = ScheduleEngine.getNextDepartures(origin, destination);
+    const departures = ScheduleEngine.getNextDepartures(origin, destination, new Date(), currentFilter);
 
     if (departures.length === 0) {
       featuredCardContainer.innerHTML = `
         <div class="empty-state">
-          <h4>Sin horarios registrados</h4>
-          <p>No hay colectivos cargados para este recorrido.</p>
+          <h4>Sin salidas disponibles</h4>
+          <p>No hay frecuencias registradas con el filtro seleccionado para este recorrido.</p>
         </div>
       `;
       upcomingListContainer.innerHTML = '';
@@ -190,50 +196,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     featuredCardContainer.innerHTML = `
       <div class="featured-bus-card">
-        <span class="featured-badge">PROXIMA SALIDA</span>
-        <div class="featured-header">
-          <div class="company-logo">BUS</div>
-          <div class="bus-info-title">
-            <h3>${nextBus.company} - ${nextBus.line}</h3>
-            <p>${originName} -> ${destName}</p>
+        <div class="featured-card-top">
+          <div class="company-badge-group">
+            <span class="company-tag ${nextBus.companyBadge}">${nextBus.company}</span>
+            <span class="service-pill">${nextBus.service}</span>
+            <span class="status-live-pill">
+              <span class="live-dot"></span> Próxima Salida
+            </span>
           </div>
-        </div>
-        
-        <div class="featured-time-display">
-          <span class="departure-clock">${nextBus.time} hs</span>
-          <span class="time-countdown">${countdownText}</span>
+          <span class="duration-badge">⏱️ ${nextBus.duration} aprox</span>
         </div>
 
-        <div class="featured-meta">
-          <div class="meta-item">
-            <span class="meta-label">Tipo Servicio</span>
-            <span class="meta-value">${nextBus.service}</span>
+        <div class="featured-card-main">
+          <div class="time-block">
+            <div class="time-main">${nextBus.time} <small class="time-unit">hs</small></div>
+            <div class="countdown-tag">${countdownText}</div>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Recorrido</span>
-            <span class="meta-value">${nextBus.via}</span>
+
+          <div class="route-block">
+            <div class="route-title">${originName} → ${destName}</div>
+            <div class="via-subtitle">${nextBus.via} • ${nextBus.platform}</div>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Alarma</span>
-            <span class="meta-value">
-              <button class="btn-alarm-trigger" data-time="${nextBus.time}" data-company="${nextBus.company}" data-route="${originName} → ${destName} (${nextBus.via})">🔔 Programar Alarma</button>
-            </span>
+
+          <div class="action-block">
+            <span class="price-text">${nextBus.price}</span>
+            <button class="btn-alarm-trigger icon-only" data-time="${nextBus.time}" data-company="${nextBus.company}" data-route="${originName} → ${destName} (${nextBus.via})" title="Programar alarma para las ${nextBus.time} hs" aria-label="Programar alarma">⏰</button>
           </div>
         </div>
       </div>
     `;
 
-    const remainingDepartures = departures.slice(1, 7);
+    const remainingDepartures = departures.slice(1, 10);
     if (remainingDepartures.length > 0) {
       upcomingListContainer.innerHTML = remainingDepartures.map(bus => `
         <div class="bus-card">
-          <div class="bus-time-group">
-            <span class="bus-time">${bus.time} hs</span>
-            <span class="bus-line">${bus.company} - ${bus.service}</span>
+          <div class="bus-card-left">
+            <div class="bus-time">${bus.time} <small class="time-unit">hs</small></div>
+            <div class="bus-company-info">
+              <div class="company-name">${bus.company}</div>
+              <div class="via-text">${bus.via} • ${bus.service}</div>
+            </div>
           </div>
-          <div class="bus-badges">
-            <span class="badge ${bus.companyBadge}">${bus.via}</span>
-            <button class="btn-alarm-trigger" data-time="${bus.time}" data-company="${bus.company}" data-route="${originName} → ${destName} (${bus.via})">🔔 Avisarme</button>
+          <div class="bus-card-right">
+            <span class="meta-pill">⏱️ ${bus.duration}</span>
+            <span class="price-pill">${bus.price}</span>
+            <button class="btn-alarm-trigger icon-only" data-time="${bus.time}" data-company="${bus.company}" data-route="${originName} → ${destName} (${bus.via})" title="Programar alarma para las ${bus.time} hs" aria-label="Programar alarma">⏰</button>
           </div>
         </div>
       `).join('');
@@ -242,7 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Renderizar planilla de horarios
   function renderTimetable() {
     const origin = selectOrigin.value;
     const destination = selectDestination.value;
@@ -281,19 +287,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       return `
         <tr class="${isNext ? 'next-highlight' : ''}">
-          <td class="time-cell">${row.time} hs ${isNext ? '[PROXIMO]' : ''}</td>
+          <td class="time-cell">${row.time} hs ${isNext ? '<span class="badge-next">PRÓXIMO</span>' : ''}</td>
           <td><strong>${row.company}</strong></td>
           <td>${row.service}</td>
           <td>${row.via}</td>
-          <td>
-            <button class="btn-alarm-trigger" data-time="${row.time}" data-company="${row.company}" data-route="${originName} → ${destName} (${row.via})">🔔 Avisarme</button>
+          <td style="text-align: center;">
+            <button class="btn-alarm-trigger icon-only" data-time="${row.time}" data-company="${row.company}" data-route="${originName} → ${destName} (${row.via})" title="Programar alarma para las ${row.time} hs" aria-label="Programar alarma">⏰</button>
           </td>
         </tr>
       `;
     }).join('');
   }
 
-  // MANEJO DE MODAL Y ALERTAS DE ALARMA DE VIAJE
   let selectedAlarmData = null;
   let selectedOffsetMinutes = 10;
 
@@ -392,22 +397,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Tema claro/oscuro
   function setupTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
+    applyTheme(savedTheme);
 
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', newTheme);
+        applyTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
         updateMapTiles();
       });
     }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    updateThemeIcon(theme);
   }
 
   function updateThemeIcon(theme) {
