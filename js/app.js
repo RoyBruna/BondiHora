@@ -89,6 +89,71 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupEventListeners() {
+    let currentDirection = 'outgoing';
+    let currentQuickDest = 'mendoza';
+
+    const dirOutgoingBtn = document.getElementById('dir-outgoing');
+    const dirIncomingBtn = document.getElementById('dir-incoming');
+    const quickDestGrid = document.getElementById('quick-dest-grid');
+    const quickDestLabel = document.getElementById('quick-dest-label');
+
+    function updateQuickSelection() {
+      if (currentDirection === 'outgoing') {
+        selectOrigin.value = 'tupungato';
+        selectDestination.value = currentQuickDest;
+        if (quickDestLabel) quickDestLabel.textContent = 'SELECCIONÁ TU DESTINO (HACIA DÓNDE VAS):';
+      } else {
+        selectOrigin.value = currentQuickDest;
+        selectDestination.value = 'tupungato';
+        if (quickDestLabel) quickDestLabel.textContent = 'SELECCIONÁ TU ORIGEN (DESDE DÓNDE VUELVES):';
+      }
+
+      if (dirOutgoingBtn && dirIncomingBtn) {
+        if (currentDirection === 'outgoing') {
+          dirOutgoingBtn.classList.add('active');
+          dirIncomingBtn.classList.remove('active');
+        } else {
+          dirIncomingBtn.classList.add('active');
+          dirOutgoingBtn.classList.remove('active');
+        }
+      }
+
+      if (quickDestGrid) {
+        const cards = quickDestGrid.querySelectorAll('.dest-card');
+        cards.forEach(card => {
+          if (card.dataset.dest === currentQuickDest) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      }
+
+      renderResults();
+    }
+
+    if (dirOutgoingBtn && dirIncomingBtn) {
+      dirOutgoingBtn.addEventListener('click', () => {
+        currentDirection = 'outgoing';
+        updateQuickSelection();
+      });
+
+      dirIncomingBtn.addEventListener('click', () => {
+        currentDirection = 'incoming';
+        updateQuickSelection();
+      });
+    }
+
+    if (quickDestGrid) {
+      const cards = quickDestGrid.querySelectorAll('.dest-card');
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          currentQuickDest = card.dataset.dest;
+          updateQuickSelection();
+        });
+      });
+    }
+
     let rotation = 0;
     btnSwap.addEventListener('click', () => {
       rotation += 180;
@@ -143,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     selectOrigin.addEventListener('change', renderResults);
     selectDestination.addEventListener('change', renderResults);
+    
+    updateQuickSelection();
   }
 
   function renderResults() {
@@ -200,11 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="company-badge-group">
             <span class="company-tag ${nextBus.companyBadge}">${nextBus.company}</span>
             <span class="service-pill">${nextBus.service}</span>
-            <span class="status-live-pill">
-              <span class="live-dot"></span> Próxima Salida
-            </span>
+            <span class="next-service-badge">Próxima Salida</span>
           </div>
-          <span class="duration-badge">⏱️ ${nextBus.duration} aprox</span>
+          <span class="duration-badge">${nextBus.duration} aprox</span>
         </div>
 
         <div class="featured-card-main">
@@ -220,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div class="action-block">
             <span class="price-text">${nextBus.price}</span>
-            <button class="btn-alarm-trigger icon-only" data-time="${nextBus.time}" data-company="${nextBus.company}" data-route="${originName} → ${destName} (${nextBus.via})" title="Programar alarma para las ${nextBus.time} hs" aria-label="Programar alarma">⏰</button>
+            <button class="btn-alarm-trigger icon-only" data-time="${nextBus.time}" data-company="${nextBus.company}" data-route="${originName} → ${destName} (${nextBus.via})" title="Programar alarma para las ${nextBus.time} hs" aria-label="Programar alarma"><svg class="alarm-svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3L2 6"/><path d="M19 3l3 3"/></svg></button>
           </div>
         </div>
       </div>
@@ -238,9 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div class="bus-card-right">
-            <span class="meta-pill">⏱️ ${bus.duration}</span>
+            <span class="meta-pill">${bus.duration}</span>
             <span class="price-pill">${bus.price}</span>
-            <button class="btn-alarm-trigger icon-only" data-time="${bus.time}" data-company="${bus.company}" data-route="${originName} → ${destName} (${bus.via})" title="Programar alarma para las ${bus.time} hs" aria-label="Programar alarma">⏰</button>
+            <button class="btn-alarm-trigger icon-only" data-time="${bus.time}" data-company="${bus.company}" data-route="${originName} → ${destName} (${bus.via})" title="Programar alarma para las ${bus.time} hs" aria-label="Programar alarma"><svg class="alarm-svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3L2 6"/><path d="M19 3l3 3"/></svg></button>
           </div>
         </div>
       `).join('');

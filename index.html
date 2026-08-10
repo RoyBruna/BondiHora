@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Horarios de Colectivos - Terminal de Ómnibus</title>
   <meta name="description" content="Consulta rápida de horarios de colectivos, salidas desde la terminal, frecuencias próximas y planillas de colectivos entre Tupungato, Tunuyán, San Carlos y Mendoza.">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#72aa80">
   
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/T-2024-09.png">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
@@ -20,11 +20,10 @@
   <header class="navbar">
     <div class="container nav-content">
       <div class="brand">
-        <div class="brand-icon">
-          <img src="assets/colectivo.png" alt="BondiHora Logo" class="brand-logo-img">
-        </div>
+        <img src="assets/T-2024-09.png" alt="Municipalidad de Tupungato" class="brand-t-logo">
+        <div class="brand-divider" aria-hidden="true"></div>
         <div class="brand-text">
-          <h1>Terminal Colectivos</h1>
+          <h1>Horarios Colectivos</h1>
           <span id="current-day-badge">Lunes a Viernes</span>
         </div>
       </div>
@@ -43,33 +42,69 @@
   <main class="py-4">
     <div class="container">
 
-      <!-- BUSCADOR COMPACTO DE ALTA VELOCIDAD -->
+      <!-- BUSCADOR SIMPLIFICADO DE 1 CLIC PARA TUPUNGATO -->
       <section class="search-card mb-4" aria-label="Buscador de colectivos">
-        <form class="search-grid" onsubmit="return false;">
-          <div class="form-group">
-            <label for="select-origin" class="sr-only">Origen (Desde)</label>
-            <span class="field-label-text">ORIGEN</span>
-            <div class="select-wrapper">
-              <select id="select-origin" aria-label="Seleccionar localidad de origen"></select>
-            </div>
+        
+        <!-- PASO 1: SENTIDO DEL VIAJE -->
+        <div class="travel-direction-container mb-3">
+          <div class="direction-toggle-group" role="radiogroup" aria-label="Sentido del viaje">
+            <button id="dir-outgoing" class="dir-btn active" type="button" data-dir="outgoing">
+              Salgo desde Tupungato
+            </button>
+            <button id="dir-incoming" class="dir-btn" type="button" data-dir="incoming">
+              Vuelvo a Tupungato
+            </button>
           </div>
+        </div>
 
-          <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino" aria-label="Intercambiar origen y destino">
-            ⇄
-          </button>
-
-          <div class="form-group">
-            <label for="select-destination" class="sr-only">Destino (Hacia)</label>
-            <span class="field-label-text">DESTINO</span>
-            <div class="select-wrapper">
-              <select id="select-destination" aria-label="Seleccionar localidad de destino"></select>
-            </div>
+        <!-- PASO 2: SELECCIÓN DIRECTA DE CIUDAD EN 1 CLIC -->
+        <div class="quick-dest-section mb-2">
+          <span id="quick-dest-label" class="field-label-text block mb-2">SELECCIONÁ TU DESTINO:</span>
+          <div id="quick-dest-grid" class="quick-dest-grid">
+            <button class="dest-card active" data-dest="mendoza" type="button">
+              <div class="dest-name">Mendoza</div>
+              <div class="dest-sub">Terminal Capital</div>
+            </button>
+            <button class="dest-card" data-dest="tunuyan" type="button">
+              <div class="dest-name">Tunuyán</div>
+              <div class="dest-sub">Terminal Tunuyán</div>
+            </button>
+            <button class="dest-card" data-dest="eugeniobustos" type="button">
+              <div class="dest-name">Eugenio Bustos</div>
+              <div class="dest-sub">Pasa por Vista Flores y La Consulta</div>
+            </button>
           </div>
+        </div>
 
-          <button id="btn-search" class="btn-search" type="button" aria-label="Buscar frecuencias">
-            Buscar
-          </button>
-        </form>
+        <!-- CONTROLES TRADICIONALES EN DESPLEGABLE SUTIL (SECUNDARIOS) -->
+        <details class="advanced-search-details mt-2">
+          <summary class="advanced-toggle-text">Filtros o búsqueda manual de localidades</summary>
+          <form class="search-grid pt-3" onsubmit="return false;">
+            <div class="form-group">
+              <label for="select-origin" class="sr-only">Origen (Desde)</label>
+              <span class="field-label-text">ORIGEN</span>
+              <div class="select-wrapper">
+                <select id="select-origin" aria-label="Seleccionar localidad de origen"></select>
+              </div>
+            </div>
+
+            <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino" aria-label="Intercambiar origen y destino">
+              ⇄
+            </button>
+
+            <div class="form-group">
+              <label for="select-destination" class="sr-only">Destino (Hacia)</label>
+              <span class="field-label-text">DESTINO</span>
+              <div class="select-wrapper">
+                <select id="select-destination" aria-label="Seleccionar localidad de destino"></select>
+              </div>
+            </div>
+
+            <button id="btn-search" class="btn-search" type="button" aria-label="Buscar frecuencias">
+              Buscar
+            </button>
+          </form>
+        </details>
       </section>
 
       <!-- BARRA DE FILTROS RÁPIDOS Y PESTAÑAS -->
@@ -142,9 +177,31 @@
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <p>Terminal de Ómnibus - Consulta de Horarios de Colectivos</p>
-      <p style="margin-top: 0.3rem; opacity: 0.75;">Proyecto estático para GitHub y Netlify.</p>
+    <div class="container footer-content">
+      <div class="footer-left">
+        <img src="assets/LOGO-TUPUNGATO-BLANCO-HORIZONTAL-e1731412438958-1024x445.png" alt="Municipalidad de Tupungato" class="footer-muni-logo">
+        <div class="footer-info">
+          <h3>Municipalidad de Tupungato</h3>
+          <p><strong>Dirección:</strong> Avenida Belgrano 348</p>
+          <p><strong>Email:</strong> info@tupungato.gov.ar</p>
+          <p><strong>Teléfono:</strong> +549 2622467689</p>
+        </div>
+      </div>
+
+      <div class="footer-socials" aria-label="Redes sociales institucionales">
+        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="social-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" class="social-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#fff"/></svg>
+        </a>
+      </div>
     </div>
   </footer>
 

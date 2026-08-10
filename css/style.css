@@ -5,49 +5,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
-  /* Color Palette - Refined Executive Slate & Indigo */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
-  --primary-glow: rgba(37, 99, 235, 0.2);
+  /* Color Palette - Official Tupungato Emerald & Harmonious Desaturated Sage */
+  --primary: #0f4c3a;
+  --primary-brand: #0f4c3a;
+  --primary-hover: #0b3a2c;
+  --primary-light: #e8f2ef;
+  --primary-glow: rgba(15, 76, 58, 0.2);
   
-  --secondary: #0d9488;
-  --secondary-hover: #0f766e;
-  --secondary-light: #ccfbf1;
+  --secondary: #4a7c6c;
+  --secondary-hover: #376154;
+  --secondary-light: #f0f6f4;
   
-  --accent: #d97706;
-  --accent-light: #fef3c7;
+  --accent: #c27d2c;
+  --accent-light: #fdf6ec;
   
-  --success: #10b981;
-  --success-light: #d1fae5;
+  --success: #0f4c3a;
+  --success-light: #e8f2ef;
   
-  --danger: #ef4444;
-  --danger-light: #fee2e2;
+  --danger: #c93b3b;
+  --danger-light: #fcebe8;
   
-  --neutral-900: #0f172a;
-  --neutral-800: #1e293b;
-  --neutral-700: #334155;
-  --neutral-600: #475569;
-  --neutral-500: #64748b;
-  --neutral-400: #94a3b8;
-  --neutral-300: #cbd5e1;
-  --neutral-200: #e2e8f0;
-  --neutral-100: #f1f5f9;
-  --neutral-50:  #f8fafc;
+  --neutral-900: #101c18;
+  --neutral-800: #1b2e28;
+  --neutral-700: #2c443c;
+  --neutral-600: #426055;
+  --neutral-500: #5c7d71;
+  --neutral-400: #88a59b;
+  --neutral-300: #c2d4cd;
+  --neutral-200: #dee7e3;
+  --neutral-100: #f0f4f2;
+  --neutral-50:  #f6f9f7;
   --white:        #ffffff;
 
-  /* Card & Surfaces */
-  --bg-main: #f8fafc;
+  /* Card & Surfaces - Cool Desaturated Mineral Light */
+  --bg-main: #f2f6f4;
   --surface-card: #ffffff;
-  --surface-card-hover: #ffffff;
-  --border-color: #e2e8f0;
-  --border-highlight: rgba(37, 99, 235, 0.4);
+  --surface-card-hover: #fafcfb;
+  --border-color: #d8e4e0;
+  --border-highlight: rgba(15, 76, 58, 0.45);
 
-  /* Shadows - Crisp & Clean */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.07);
-  --shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.1);
-  --shadow-glow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(16, 28, 24, 0.05);
+  --shadow-md: 0 4px 14px rgba(16, 28, 24, 0.08);
+  --shadow-lg: 0 10px 25px rgba(16, 28, 24, 0.12);
+  --shadow-glow: 0 4px 14px rgba(15, 76, 58, 0.22);
 
   /* Border Radii */
   --radius-sm: 6px;
@@ -64,34 +65,35 @@
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark Mode Overrides - Deep Slate Navy */
+/* Dark Mode Overrides - Deep Obsidian Emerald & Muted Sage */
 html[data-theme="dark"],
 html.dark,
 [data-theme="dark"] {
-  --bg-main: #090d16;
-  --surface-card: #111827;
-  --surface-card-hover: #1f2937;
-  --border-color: rgba(255, 255, 255, 0.09);
-  --border-highlight: rgba(59, 130, 246, 0.5);
+  --bg-main: #071510;
+  --surface-card: #10211b;
+  --surface-card-hover: #172c24;
+  --border-color: rgba(59, 122, 103, 0.22);
+  --border-highlight: rgba(66, 168, 138, 0.5);
   
-  --neutral-900: #f9fafb;
-  --neutral-800: #f3f4f6;
-  --neutral-700: #e5e7eb;
-  --neutral-600: #9ca3af;
-  --neutral-500: #6b7280;
-  --neutral-400: #4b5563;
-  --neutral-300: #374151;
-  --neutral-200: #1f2937;
-  --neutral-100: #111827;
-  --neutral-50:  #090d16;
+  --neutral-900: #f2f8f5;
+  --neutral-800: #e1ede8;
+  --neutral-700: #c6ded5;
+  --neutral-600: #93b5a9;
+  --neutral-500: #688f82;
+  --neutral-400: #46675c;
+  --neutral-300: #29423b;
+  --neutral-200: #172a23;
+  --neutral-100: #10211b;
+  --neutral-50:  #071510;
   
-  --primary: #3b82f6;
-  --primary-hover: #60a5fa;
-  --primary-light: rgba(59, 130, 246, 0.18);
-  --secondary-light: rgba(13, 148, 136, 0.18);
+  --primary: #42a88a;
+  --primary-brand: #0f4c3a;
+  --primary-hover: #5ec4a5;
+  --primary-light: rgba(66, 168, 138, 0.18);
+  --secondary-light: rgba(74, 124, 108, 0.18);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.7);
+  --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.75);
 }
 
 /* Reset & Box Sizing */
