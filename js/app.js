@@ -98,6 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickDestLabel = document.getElementById('quick-dest-label');
 
     function updateQuickSelection() {
+      if (currentDirection === 'incoming' && currentQuickDest === 'rim11') {
+        currentQuickDest = 'mendoza';
+      }
+
       if (currentDirection === 'outgoing') {
         selectOrigin.value = 'tupungato';
         selectDestination.value = currentQuickDest;
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         selectOrigin.value = currentQuickDest;
         selectDestination.value = 'tupungato';
-        if (quickDestLabel) quickDestLabel.textContent = 'SELECCIONÁ TU ORIGEN (DESDE DÓNDE VUELVES):';
+        if (quickDestLabel) quickDestLabel.textContent = 'SELECCIONÁ TU ORIGEN (DESDE DÓNDE VUELVES A TUPUNGATO):';
       }
 
       if (dirOutgoingBtn && dirIncomingBtn) {
@@ -121,6 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (quickDestGrid) {
         const cards = quickDestGrid.querySelectorAll('.dest-card');
         cards.forEach(card => {
+          const isLocalLoop = card.classList.contains('dest-card-local') || card.dataset.dest === 'rim11';
+          if (currentDirection === 'incoming' && isLocalLoop) {
+            card.style.display = 'none';
+          } else {
+            card.style.display = 'block';
+          }
+
           if (card.dataset.dest === currentQuickDest) {
             card.classList.add('active');
           } else {

@@ -62,16 +62,32 @@
           <span id="quick-dest-label" class="field-label-text block mb-2">SELECCIONÁ TU DESTINO:</span>
           <div id="quick-dest-grid" class="quick-dest-grid">
             <button class="dest-card active" data-dest="mendoza" type="button">
-              <div class="dest-name">Mendoza</div>
+              <div class="dest-card-header">
+                <div class="dest-name">Mendoza</div>
+                <span class="dest-badge">Terminal</span>
+              </div>
               <div class="dest-sub">Terminal Capital</div>
             </button>
             <button class="dest-card" data-dest="tunuyan" type="button">
-              <div class="dest-name">Tunuyán</div>
+              <div class="dest-card-header">
+                <div class="dest-name">Tunuyán</div>
+                <span class="dest-badge">Terminal</span>
+              </div>
               <div class="dest-sub">Terminal Tunuyán</div>
             </button>
             <button class="dest-card" data-dest="eugeniobustos" type="button">
-              <div class="dest-name">Eugenio Bustos</div>
+              <div class="dest-card-header">
+                <div class="dest-name">Eugenio Bustos</div>
+                <span class="dest-badge">Terminal</span>
+              </div>
               <div class="dest-sub">Pasa por Vista Flores y La Consulta</div>
+            </button>
+            <button class="dest-card dest-card-local" data-dest="rim11" type="button">
+              <div class="dest-card-header">
+                <div class="dest-name">Sergi / RIM 11</div>
+                <span class="dest-badge dest-badge-route">Recorrido por Paradas</span>
+              </div>
+              <div class="dest-sub">Recorrido local (Vencedora, El Peral y RIM 11)</div>
             </button>
           </div>
         </div>
@@ -250,6 +266,22 @@
     </div>
   </div>
 
+  <!-- BASE DE DATOS ESTRUCTURADA MODULAR -->
+  <script src="js/data/cities.js"></script>
+  <script src="js/data/companies.js"></script>
+  
+  <!-- Rutas Interurbanas (X-terminales) -->
+  <script src="js/data/X-terminales/tupungato-mendoza.js"></script>
+  <script src="js/data/X-terminales/mendoza-tupungato.js"></script>
+  <script src="js/data/X-terminales/tupungato-tunuyan.js"></script>
+  <script src="js/data/X-terminales/tunuyan-tupungato.js"></script>
+  <script src="js/data/X-terminales/tupungato-eugeniobustos.js"></script>
+  <script src="js/data/X-terminales/eugeniobustos-tupungato.js"></script>
+  
+  <!-- Recorridos Urbanos Locales -->
+  <script src="js/data/Recorridos/tupungato-rim11.js"></script>
+
+  <!-- Consolidador y Motores -->
   <script src="js/data.js"></script>
   <script src="js/scheduleEngine.js"></script>
   <script src="js/alarmEngine.js"></script>

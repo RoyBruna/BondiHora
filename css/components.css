@@ -458,11 +458,61 @@
   box-shadow: 0 0 0 2px #3b82f6;
 }
 
+.dest-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dest-badge {
+  font-size: 0.64rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+  border: 1px solid var(--border-color);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dest-badge-route {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
+}
+
+[data-theme="dark"] .dest-badge {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="dark"] .dest-badge-route {
+  background: rgba(217, 119, 6, 0.35);
+  color: #fef08a;
+  border-color: rgba(253, 224, 71, 0.5);
+}
+
+.dest-card.active .dest-badge {
+  background: rgba(15, 76, 58, 0.12);
+  color: #0f4c3a;
+  border-color: rgba(15, 76, 58, 0.3);
+}
+
+[data-theme="dark"] .dest-card.active .dest-badge {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
 .dest-name {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--neutral-900);
-  margin-bottom: 0.15rem;
 }
 
 [data-theme="dark"] .dest-name {

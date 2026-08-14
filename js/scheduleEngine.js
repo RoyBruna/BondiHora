@@ -49,6 +49,7 @@ const ScheduleEngine = {
     if (!originId || !destinationId) return '45 min';
     const pair = [originId, destinationId].sort().join('-');
     const durations = {
+      'rim11-tupungato': '20 a 30 min',
       'tupungato-tunuyan': '40 min',
       'mendoza-tupungato': '1h 20 min',
       'mendoza-tunuyan': '1h 30 min',
@@ -73,11 +74,12 @@ const ScheduleEngine = {
     if (matchingRoutes.length === 0) return [];
 
     let departures = [];
-    const durationStr = this.getEstimatedDuration(originId, destinationId);
+    const fallbackDurationStr = this.getEstimatedDuration(originId, destinationId);
 
     matchingRoutes.forEach(route => {
       const companyInfo = BUS_DATA.companies[route.company] || { name: 'Colectivo', badge: 'badge-primary' };
       const timesList = route.schedules[dayType] || [];
+      const durationStr = route.estimatedDuration || fallbackDurationStr;
 
       timesList.forEach(item => {
         const itemMins = this.timeToMinutes(item.time);
