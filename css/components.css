@@ -2,7 +2,6 @@
    HORARIOS DE COLECTIVOS TERMINAL - COMPONENTS
    ========================================================================== */
 
-/* HEADER & NAVBAR (Municipalidad de Tupungato Theme) */
 .navbar {
   background: #0f4c3a;
   color: #ffffff;
@@ -163,13 +162,11 @@
   transform: translateY(-1px);
 }
 
-/* ACCESSIBILITY FOCUS INDICATORS (WCAG AAA) */
 *:focus-visible {
   outline: 2px solid var(--primary) !important;
   outline-offset: 2px !important;
 }
 
-/* TOP CONTROLS & QUICK FILTERS */
 .top-controls-bar {
   display: flex;
   justify-content: space-between;
@@ -211,7 +208,6 @@
   border: 1px solid var(--border-color);
 }
 
-/* SEARCH FIELD LABELS */
 .field-label-text {
   font-size: 0.72rem;
   font-weight: 800;
@@ -221,12 +217,9 @@
   margin-bottom: 0.25rem;
 }
 
-/* SWAP BUTTON ANIMATION */
 .btn-swap {
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--transition-fast);
 }
-
-/* NAVIGATION TABS (Próximos vs Planilla) */
 .view-tabs {
   display: flex;
   gap: 0.35rem;
@@ -259,7 +252,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* SEARCH & FILTER CARD */
 .search-card {
   background: var(--surface-card);
   border: 1px solid var(--border-color);
@@ -376,7 +368,6 @@
   box-shadow: var(--shadow-glow);
 }
 
-/* SIMPLIFIED 1-CLICK SELECTOR STYLES */
 .travel-direction-container {
   display: flex;
   justify-content: center;
@@ -544,7 +535,6 @@
   color: var(--primary);
 }
 
-/* SECTION SUBTITLE */
 .section-subtitle {
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
@@ -555,14 +545,12 @@
   color: var(--neutral-500);
 }
 
-/* RESULTS & FEATURED CARD (Proximo Colectivo) */
 .results-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* FEATURED BUS CARD REDESIGN - HIGH DENSITY */
 .featured-bus-card {
   background: var(--surface-card);
   border: 1px solid var(--border-color);
@@ -699,7 +687,6 @@
   color: var(--primary);
 }
 
-/* LIST OF UPCOMING BUSES */
 .upcoming-list {
   display: flex;
   flex-direction: column;
@@ -777,7 +764,6 @@
 .badge-secondary { background: var(--secondary-light); color: var(--secondary); }
 .badge-accent { background: var(--accent-light); color: #b45309; }
 
-/* RESPONSIVE MEDIA QUERIES FOR MOBILE SCREEN COMFORT */
 @media (max-width: 640px) {
   .search-grid {
     grid-template-columns: 1fr;
@@ -859,7 +845,6 @@
   vertical-align: middle;
 }
 
-/* TIMETABLE PLANILLA VIEW */
 .timetable-container {
   background: var(--surface-card);
   border: 1px solid var(--border-color);
@@ -903,7 +888,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* TABLE STYLES - Corporate Dashboard Aesthetics */
 .table-wrapper {
   overflow-x: auto;
   border-radius: var(--radius-md);
@@ -979,7 +963,6 @@
   color: #f8fafc;
 }
 
-/* NO RESULTS STATE */
 .empty-state {
   text-align: center;
   padding: 3rem 1.5rem;
@@ -999,7 +982,6 @@
   margin-bottom: 0.4rem;
 }
 
-/* FOOTER */
 .footer {
   background: var(--surface-card);
   border-top: 1px solid var(--border-color);
@@ -1014,7 +996,6 @@
   font-weight: 600;
 }
 
-/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .search-grid {
     grid-template-columns: 1fr;
@@ -1053,7 +1034,6 @@
   }
 }
 
-/* MAP SECTION STYLES */
 .map-section {
   background: var(--surface-card);
   border: 1px solid var(--border-color);
@@ -1121,7 +1101,6 @@
   z-index: 1;
 }
 
-/* Leaflet Dark Mode Popup Styling */
 [data-theme="dark"] .leaflet-popup-content-wrapper,
 [data-theme="dark"] .leaflet-popup-tip {
   background: #1e293b;
@@ -1176,7 +1155,6 @@
   transform: translateY(-1px);
 }
 
-/* Custom Pin Markers */
 .custom-map-pin {
   background: transparent;
   border: none;
@@ -1195,7 +1173,6 @@
   transform: scale(1.25);
 }
 
-/* ALARM BUTTONS & MODAL STYLES */
 .btn-alarm-trigger {
   background: var(--neutral-100);
   color: var(--neutral-800);
@@ -1218,7 +1195,6 @@
   transform: translateY(-1px);
 }
 
-/* Botón cuadrado discreto de reloj que aparece al pasar el cursor (Hover Reveal) */
 .btn-alarm-trigger.icon-only {
   width: 32px;
   height: 32px;
@@ -1407,7 +1383,6 @@ tr:hover .btn-alarm-trigger.icon-only,
   border-top: 1px solid var(--border-color);
 }
 
-/* Toast de Alarma Activa */
 .active-alarm-toast {
   position: fixed;
   bottom: 1.5rem;
@@ -1468,7 +1443,6 @@ tr:hover .btn-alarm-trigger.icon-only,
   color: #ffffff;
 }
 
-/* FOOTER BRANDING MUNICIPALIDAD DE TUPUNGATO */
 .footer {
   background: #0f4c3a;
   color: #ffffff;
@@ -1537,4 +1511,129 @@ tr:hover .btn-alarm-trigger.icon-only,
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* CHANGELOG CMD TERMINAL */
+.btn-log {
+  background: #000000;
+  border: 1.5px solid #eab308;
+  color: #facc15;
+  padding: 0.42rem 0.9rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Consolas', 'Courier New', monospace;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.btn-log:hover {
+  background: #eab308;
+  color: #000000;
+  border-color: #eab308;
+  transform: translateY(-1px);
+}
+
+.cmd-prompt {
+  font-weight: 900;
+  color: #facc15;
+}
+
+.btn-log:hover .cmd-prompt {
+  color: #000000;
+}
+
+/* CMD POPUP */
+.cmd-modal-card {
+  background: #000000;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 760px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+  animation: modal-fade-in 0.15s ease-out;
+}
+
+.cmd-window-header {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 0.4rem 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cmd-window-title {
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cmd-btn-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  width: 24px;
+  height: 24px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  border-radius: 2px;
+}
+
+.cmd-btn-close:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.cmd-terminal-body {
+  padding: 1.25rem;
+  max-height: 480px;
+  overflow-y: auto;
+  color: #facc15;
+  background: #000000;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cmd-terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+.cmd-terminal-body::-webkit-scrollbar-track {
+  background: #000000;
+}
+.cmd-terminal-body::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.cmd-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: #facc15;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: cmd-blink 1s step-start infinite;
+}
+
+@keyframes cmd-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

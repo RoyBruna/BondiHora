@@ -4,7 +4,7 @@ window.BUS_ROUTES.push({
   "id": "tupungato-eugeniobustos",
   "origin": "tupungato",
   "destination": "eugeniobustos",
-  "company": "cata",
+  "company": "sancarlos",
   "line": "Tupungato - Eugenio Bustos",
   "platform": "Plataforma 1-2",
   "estimatedPrice": "$1.500",

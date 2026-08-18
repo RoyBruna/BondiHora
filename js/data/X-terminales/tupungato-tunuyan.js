@@ -11,47 +11,47 @@ window.BUS_ROUTES.push({
   "schedules": {
     "weekdays": [
       {
-        "time": "5:15",
+        "time": "05:15",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "5:50",
+        "time": "05:50",
         "service": "Común",
         "via": "x Agua Amarga"
       },
       {
-        "time": "6:00",
+        "time": "06:00",
         "service": "Común",
         "via": "x Zampal"
       },
       {
-        "time": "7:00",
+        "time": "07:00",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "7:35",
+        "time": "07:35",
         "service": "Común",
         "via": "x Dubois"
       },
       {
-        "time": "8:00",
+        "time": "08:00",
         "service": "Expreso",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "8:05",
+        "time": "08:05",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "9:00",
+        "time": "09:00",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "9:30",
+        "time": "09:30",
         "service": "Expreso",
         "via": "x Córdón del Plata"
       },
@@ -168,32 +168,32 @@ window.BUS_ROUTES.push({
     ],
     "saturdays": [
       {
-        "time": "5:45",
+        "time": "05:45",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "6:50",
+        "time": "06:50",
         "service": "Común",
         "via": "x Agua Amarga"
       },
       {
-        "time": "7:00",
+        "time": "07:00",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "7:30",
+        "time": "07:30",
         "service": "Común",
         "via": "x Zampal"
       },
       {
-        "time": "8:05",
+        "time": "08:05",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "9:00",
+        "time": "09:00",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
@@ -275,32 +275,32 @@ window.BUS_ROUTES.push({
     ],
     "sundays": [
       {
-        "time": "5:45",
+        "time": "05:45",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "6:15",
+        "time": "06:15",
         "service": "Común",
         "via": "x Agua Amarga"
       },
       {
-        "time": "7:00",
+        "time": "07:00",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "7:30",
+        "time": "07:30",
         "service": "Común",
         "via": "x Zampal"
       },
       {
-        "time": "8:05",
+        "time": "08:05",
         "service": "Común",
         "via": "x Córdón del Plata"
       },
       {
-        "time": "9:15",
+        "time": "09:15",
         "service": "Común",
         "via": "x Córdón del Plata"
       },

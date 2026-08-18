@@ -3,8 +3,6 @@
 const AlarmEngine = (() => {
   const STORAGE_KEY = 'bondihora_active_alarm';
   let checkInterval = null;
-
-  // Sonido de campana suave usando Web Audio API (sin archivos externos)
   function playChime() {
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -41,8 +39,6 @@ const AlarmEngine = (() => {
       }
     }
   }
-
-  // Disparar la notificacion nativa del navegador
   function triggerNotification(alarm) {
     playChime();
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -53,26 +49,18 @@ const AlarmEngine = (() => {
     }
   }
 
-  // Convertir hora HH:mm a minutos desde medianoche
   function timeToMinutes(timeStr) {
     if (!timeStr) return 0;
     const [h, m] = timeStr.split(':').map(Number);
     return h * 60 + m;
   }
-
-  // Guardar alarma en localStorage
   function setAlarm(alarmData) {
-    // alarmData: { company, route, departureTime, offsetMinutes, dateStr }
     const now = new Date();
     const [h, m] = alarmData.departureTime.split(':').map(Number);
-    
-    // Crear fecha objetivo
     const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-    // Si la hora ya paso hoy, asumir manana
     if (targetDate.getTime() < now.getTime()) {
       targetDate.setDate(targetDate.getDate() + 1);
     }
-
     const alarmTimeMs = targetDate.getTime() - (alarmData.offsetMinutes * 60 * 1000);
 
     const alarmRecord = {
@@ -88,13 +76,11 @@ const AlarmEngine = (() => {
     return alarmRecord;
   }
 
-  // Obtener alarma activa
   function getActiveAlarm() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
       if (!data) return null;
       const alarm = JSON.parse(data);
-      // Eliminar si ya pasaron mas de 15 minutos de la hora de la alarma
       if (Date.now() > alarm.alarmTimeMs + (15 * 60 * 1000)) {
         cancelAlarm();
         return null;
@@ -105,12 +91,9 @@ const AlarmEngine = (() => {
     }
   }
 
-  // Cancelar alarma
   function cancelAlarm() {
     localStorage.removeItem(STORAGE_KEY);
   }
-
-  // Verificar periodicamente si debe sonar
   function startMonitoring(onTriggerCallback) {
     if (checkInterval) clearInterval(checkInterval);
 

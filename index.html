@@ -34,6 +34,9 @@
           <span class="time-label">HORA</span>
           <span id="live-clock">00:00<span class="clock-seconds">:00</span></span>
         </div>
+        <button id="btn-changelog" class="btn-log" aria-label="Abrir bitácora de novedades y reportes de servicios">
+          <span class="cmd-prompt">&gt;_</span> changelog
+        </button>
         <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)">Modo Oscuro</button>
       </div>
     </div>
@@ -42,10 +45,9 @@
   <main class="py-4">
     <div class="container">
 
-      <!-- BUSCADOR SIMPLIFICADO DE 1 CLIC PARA TUPUNGATO -->
+      
       <section class="search-card mb-4" aria-label="Buscador de colectivos">
         
-        <!-- PASO 1: SENTIDO DEL VIAJE -->
         <div class="travel-direction-container mb-3">
           <div class="direction-toggle-group" role="radiogroup" aria-label="Sentido del viaje">
             <button id="dir-outgoing" class="dir-btn active" type="button" data-dir="outgoing">
@@ -57,7 +59,7 @@
           </div>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DIRECTA DE CIUDAD EN 1 CLIC -->
+        
         <div class="quick-dest-section mb-2">
           <span id="quick-dest-label" class="field-label-text block mb-2">SELECCIONÁ TU DESTINO:</span>
           <div id="quick-dest-grid" class="quick-dest-grid">
@@ -92,7 +94,7 @@
           </div>
         </div>
 
-        <!-- CONTROLES TRADICIONALES EN DESPLEGABLE SUTIL (SECUNDARIOS) -->
+       
         <details class="advanced-search-details mt-2">
           <summary class="advanced-toggle-text">Filtros o búsqueda manual de localidades</summary>
           <form class="search-grid pt-3" onsubmit="return false;">
@@ -123,7 +125,7 @@
         </details>
       </section>
 
-      <!-- BARRA DE FILTROS RÁPIDOS Y PESTAÑAS -->
+    
       <div class="top-controls-bar">
         <div class="view-tabs">
           <button id="tab-upcoming" class="tab-btn active" aria-label="Ver próximas salidas">
@@ -140,15 +142,14 @@
           <button class="filter-chip" data-filter="expreso" aria-label="Mostrar solo servicios expresos">Expresos</button>
         </div>
       </div>
-
-      <!-- VISTA PROXIMAS SALIDAS -->
+>
       <section id="view-upcoming" class="results-container">
         <div id="featured-bus-container"></div>
         <h3 class="section-subtitle">Siguientes frecuencias de hoy:</h3>
         <div id="upcoming-list-container" class="upcoming-list"></div>
       </section>
 
-      <!-- VISTA PLANILLA COMPLETA -->
+      
       <section id="view-timetable" class="timetable-container" style="display: none;">
         <div class="timetable-header">
           <h3 id="timetable-title">Planilla de Horarios</h3>
@@ -266,11 +267,24 @@
     </div>
   </div>
 
-  <!-- BASE DE DATOS ESTRUCTURADA MODULAR -->
+  <div id="changelog-modal" class="modal-backdrop" style="display: none;">
+    <div class="cmd-modal-card">
+      <div class="cmd-window-header">
+        <div class="cmd-window-title">
+          C:\Mendoza\Tupungato\cmd.exe - changelog
+        </div>
+        <button id="close-changelog-modal" class="cmd-btn-close" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="cmd-terminal-body" id="changelog-console-output">
+      </div>
+    </div>
+  </div>
+
+  
   <script src="js/data/cities.js"></script>
   <script src="js/data/companies.js"></script>
   
-  <!-- Rutas Interurbanas (X-terminales) -->
+  
   <script src="js/data/X-terminales/tupungato-mendoza.js"></script>
   <script src="js/data/X-terminales/mendoza-tupungato.js"></script>
   <script src="js/data/X-terminales/tupungato-tunuyan.js"></script>
@@ -278,13 +292,14 @@
   <script src="js/data/X-terminales/tupungato-eugeniobustos.js"></script>
   <script src="js/data/X-terminales/eugeniobustos-tupungato.js"></script>
   
-  <!-- Recorridos Urbanos Locales -->
+  
   <script src="js/data/Recorridos/tupungato-rim11.js"></script>
 
-  <!-- Consolidador y Motores -->
+
   <script src="js/data.js"></script>
   <script src="js/scheduleEngine.js"></script>
   <script src="js/alarmEngine.js"></script>
+  <script src="js/changelog.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
