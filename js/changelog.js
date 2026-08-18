@@ -58,9 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (btnChangelog) {
-    btnChangelog.addEventListener('click', openChangelog);
-  }
+  // Eliminar listener del botón ya que fue removido del HTML
 
   if (closeChangelogBtn) {
     closeChangelogBtn.addEventListener('click', closeChangelog);
@@ -77,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && changelogModal && changelogModal.style.display === 'flex') {
       closeChangelog();
+    }
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 't') {
+      e.preventDefault();
+      openChangelog();
     }
   });
 });
