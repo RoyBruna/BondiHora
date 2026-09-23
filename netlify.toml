@@ -1,7 +1,7 @@
 # Netlify Configuration File
 
 [build]
-  publish = "."
+  publish = "frontend"
 
 [[headers]]
   for = "/*"

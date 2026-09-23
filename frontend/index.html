@@ -34,6 +34,7 @@
           <span class="time-label">HORA</span>
           <span id="live-clock">00:00<span class="clock-seconds">:00</span></span>
         </div>
+        <button id="btn-changelog" class="btn-theme" aria-label="Ver Historial de Novedades">🔔 Novedades</button>
         <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)">Modo Oscuro</button>
       </div>
     </div>
@@ -264,39 +265,30 @@
     </div>
   </div>
 
-  <div id="changelog-modal" class="modal-backdrop" style="display: none;">
-    <div class="cmd-modal-card">
-      <div class="cmd-window-header">
-        <div class="cmd-window-title">
-          C:\Mendoza\Tupungato\cmd.exe - changelog
-        </div>
-        <button id="close-changelog-modal" class="cmd-btn-close" aria-label="Cerrar">&times;</button>
+
+
+  <!-- Modal Changelog Profesional -->
+  <div id="changelog-modal" class="modal-backdrop" style="display: none;" aria-labelledby="changelog-title" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width: 600px; width: 90%; background: var(--surface-card);">
+      <div class="modal-header">
+        <h2 id="changelog-title" class="text-xl font-bold">Historial de Novedades</h2>
+        <button id="close-changelog-modal" class="btn-close" aria-label="Cerrar modal">&times;</button>
       </div>
-      <div class="cmd-terminal-body" id="changelog-console-output">
+      <div class="modal-body" style="max-height: 60vh; overflow-y: auto;" id="changelog-history-container">
+        <!-- Llenado por JS -->
       </div>
     </div>
   </div>
 
-  
-  <script src="js/data/cities.js"></script>
-  <script src="js/data/companies.js"></script>
-  
-  
-  <script src="js/data/X-terminales/tupungato-mendoza.js"></script>
-  <script src="js/data/X-terminales/mendoza-tupungato.js"></script>
-  <script src="js/data/X-terminales/tupungato-tunuyan.js"></script>
-  <script src="js/data/X-terminales/tunuyan-tupungato.js"></script>
-  <script src="js/data/X-terminales/tupungato-eugeniobustos.js"></script>
-  <script src="js/data/X-terminales/eugeniobustos-tupungato.js"></script>
-  
-  
-  <script src="js/data/Recorridos/tupungato-rim11.js"></script>
+  <!-- Contenedor de Alertas en Vivo (Lado Derecho) -->
+  <div id="live-alerts-container" style="position: fixed; top: 80px; right: 20px; width: 300px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+    <!-- Renderizado por JS -->
+  </div>
 
-
+  <script src="js/config.js"></script>
   <script src="js/data.js"></script>
   <script src="js/scheduleEngine.js"></script>
   <script src="js/alarmEngine.js"></script>
-  <script src="js/changelog.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const selectOrigin = document.getElementById('select-origin');
   const selectDestination = document.getElementById('select-destination');
   const btnSwap = document.getElementById('btn-swap');
@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'pareditas', name: 'Pareditas', desc: 'Paradas Principales (Sin terminal fija)', lat: -33.93992086972068, lng: -69.07876518267187, url: 'https://www.google.com/maps/search/?api=1&query=-33.93992086972068,-69.07876518267187' }
   ];
 
-  initApp();
+  const success = await window.loadBusData();
+  if (success) {
+    initApp();
+  } else {
+    alert("Error de conexión con el servidor. No se pudieron cargar los horarios.");
+  }
 
   function initApp() {
     populateCitySelects();
@@ -46,6 +51,125 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAlarmModalListeners();
     renderResults();
     initMap();
+    fetchAndRenderAlerts();
+    setupChangelog();
+  }
+
+  let globalAlerts = [];
+
+  function getDismissedAlerts() {
+    try {
+      return JSON.parse(localStorage.getItem('dismissedAlerts') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function dismissAlert(id) {
+    const dismissed = getDismissedAlerts();
+    if (!dismissed.includes(id)) {
+      dismissed.push(id);
+      localStorage.setItem('dismissedAlerts', JSON.stringify(dismissed));
+    }
+    const card = document.getElementById(`alert-card-${id}`);
+    if (card) card.remove();
+  }
+  
+  window.dismissAlert = dismissAlert;
+
+  async function fetchAndRenderAlerts() {
+    try {
+      const res = await fetch(API_BASE_URL + '/alerts');
+      if (!res.ok) return;
+      globalAlerts = await res.json();
+      
+      const container = document.getElementById('live-alerts-container');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      const dismissed = getDismissedAlerts();
+      
+      const styles = {
+        gray: { border: 'border-slate-500', icon: 'ℹ️', text: 'text-slate-500', bg: 'bg-white dark:bg-slate-900' },
+        green: { border: 'border-emerald-500', icon: '✅', text: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
+        yellow: { border: 'border-amber-500', icon: '⚠️', text: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
+        red: { border: 'border-red-500', icon: '🚨', text: 'text-red-500', bg: 'bg-red-50 dark:bg-red-950/30' }
+      };
+      
+      globalAlerts.forEach(alert => {
+        if (dismissed.includes(alert.id)) return; 
+        
+        const style = styles[alert.severity] || styles.gray;
+        const div = document.createElement('div');
+        div.id = `alert-card-${alert.id}`;
+        div.className = `${style.bg} border-l-4 ${style.border} shadow-lg rounded p-4 relative backdrop-blur-sm bg-opacity-90 transition-all duration-300`;
+        div.innerHTML = `
+          <button onclick="window.dismissAlert(${alert.id})" class="absolute top-2 right-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200" title="Cerrar">&times;</button>
+          <div class="text-xs font-bold ${style.text} uppercase mb-1 flex items-center gap-1">
+            <span>${style.icon}</span> ${alert.tag}
+          </div>
+          <h4 class="font-bold text-sm mb-1 text-slate-800 dark:text-slate-100 pr-4">${alert.title}</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-400">${alert.detail}</p>
+        `;
+        container.appendChild(div);
+      });
+    } catch (e) {
+      console.warn("No se pudieron cargar las alertas en vivo.");
+    }
+  }
+
+  function setupChangelog() {
+    const btnChangelog = document.getElementById('btn-changelog');
+    const modal = document.getElementById('changelog-modal');
+    const btnClose = document.getElementById('close-changelog-modal');
+    const historyContainer = document.getElementById('changelog-history-container');
+
+    if (!btnChangelog || !modal) return;
+
+    function renderHistory() {
+      historyContainer.innerHTML = '';
+      if (globalAlerts.length === 0) {
+        historyContainer.innerHTML = '<p class="text-center text-slate-500 my-4">No hay novedades registradas.</p>';
+        return;
+      }
+      
+      const styles = {
+        gray: { border: 'border-slate-500', icon: 'ℹ️', text: 'text-slate-500', bg: 'bg-white dark:bg-slate-900' },
+        green: { border: 'border-emerald-500', icon: '✅', text: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
+        yellow: { border: 'border-amber-500', icon: '⚠️', text: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
+        red: { border: 'border-red-500', icon: '🚨', text: 'text-red-500', bg: 'bg-red-50 dark:bg-red-950/30' }
+      };
+
+      globalAlerts.forEach(alert => {
+        const style = styles[alert.severity] || styles.gray;
+        const div = document.createElement('div');
+        div.className = `${style.bg} border-l-4 ${style.border} rounded p-3 mb-3`;
+        div.innerHTML = `
+          <div class="text-xs font-bold ${style.text} uppercase mb-1 flex items-center gap-1">
+            <span>${style.icon}</span> ${alert.tag} 
+            <span class="text-[10px] text-slate-400 font-normal ml-auto">${new Date(alert.createdAt).toLocaleString()}</span>
+          </div>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-slate-100">${alert.title}</h4>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">${alert.detail}</p>
+        `;
+        historyContainer.appendChild(div);
+      });
+    }
+
+    btnChangelog.addEventListener('click', () => {
+      renderHistory();
+      modal.style.display = 'flex';
+    });
+
+    if (btnClose) {
+      btnClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
   }
 
   function populateCitySelects() {
@@ -527,14 +651,22 @@ document.addEventListener('DOMContentLoaded', () => {
       mapInstance.removeLayer(mapTileLayer);
     }
 
-    const tileUrl = currentTheme === 'dark'
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
-      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const isDark = currentTheme === 'dark';
+    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
     mapTileLayer = L.tileLayer(tileUrl, {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19
+      attribution: attribution,
+      maxZoom: 19,
+      className: isDark ? 'dark-map-tiles' : ''
     }).addTo(mapInstance);
+
+    if (!document.getElementById('dark-map-css')) {
+      const style = document.createElement('style');
+      style.id = 'dark-map-css';
+      style.textContent = '.dark-map-tiles { filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7); }';
+      document.head.appendChild(style);
+    }
 
     setTimeout(() => {
       mapInstance.invalidateSize();
@@ -554,10 +686,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const customIcon = L.divIcon({
         className: 'custom-map-pin',
-        html: `<div class="pin-inner">📍</div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -30]
+        html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="28" height="42">
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 24 12 24S24 21 24 12C24 5.373 18.627 0 12 0z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1"/>
+          <circle cx="12" cy="12" r="5" fill="white" opacity="0.95"/>
+        </svg>`,
+        iconSize: [28, 42],
+        iconAnchor: [14, 42],
+        popupAnchor: [0, -44]
       });
 
       L.marker([term.lat, term.lng], { icon: customIcon })
