@@ -3,4 +3,4 @@
 // CUANDO TENGAS EL URL DE RENDER, cambiá este valor:
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api'
-  : 'https://bondihora-backend.onrender.com/api';
+  : 'https://bondihora.onrender.com/api';
