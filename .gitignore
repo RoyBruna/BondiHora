@@ -20,5 +20,4 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Backend (Standalone server)
-backend/
+# (La carpeta backend fue habilitada para poder hacer deploy en Render)

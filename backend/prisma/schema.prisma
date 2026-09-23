@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model City {
+  id          String  @id
+  name        String
+  routesFrom  Route[] @relation("RouteOrigin")
+  routesTo    Route[] @relation("RouteDestination")
+}
+
+model Company {
+  id      String  @id
+  name    String
+  short   String
+  badge   String
+  routes  Route[]
+}
+
+model Route {
+  id             String    @id
+  originId       String
+  destinationId  String
+  companyId      String
+  line           String
+  platform       String?
+  estimatedPrice String?
+
+  origin         City      @relation("RouteOrigin", fields: [originId], references: [id])
+  destination    City      @relation("RouteDestination", fields: [destinationId], references: [id])
+  company        Company   @relation(fields: [companyId], references: [id])
+
+  schedules      Schedule[]
+}
+
+enum DayType {
+  WEEKDAYS
+  SATURDAYS
+  SUNDAYS
+}
+
+model Schedule {
+  id        Int     @id @default(autoincrement())
+  routeId   String
+  dayType   DayType
+  time      String
+  service   String?
+  via       String?
+
+  route     Route   @relation(fields: [routeId], references: [id])
+}
+
+model Alert {
+  id        Int      @id @default(autoincrement())
+  tag       String
+  title     String
+  detail    String
+  severity  String   @default("gray")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
