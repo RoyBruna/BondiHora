@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bondihora-v3';
+const CACHE_NAME = 'bondihora-v4';
 
 const STATIC_ASSETS = [
   '/',

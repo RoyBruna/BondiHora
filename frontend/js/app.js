@@ -629,9 +629,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       return `
         <tr class="${isNext ? 'next-highlight' : ''}">
           <td class="time-cell">${row.time} hs ${isNext ? '<span class="badge-next">PRÓXIMO</span>' : ''}</td>
-          <td><strong>${row.company}</strong></td>
+          <td><strong>${row.via}</strong></td>
           <td>${row.service}</td>
-          <td>${row.via}</td>
+          <td>${row.company}</td>
           <td style="text-align: center;">
             <button class="btn-alarm-trigger icon-only" data-time="${row.time}" data-company="${row.company}" data-route="${originName} → ${destName} (${row.via})" title="Programar alarma para las ${row.time} hs" aria-label="Programar alarma">⏰</button>
           </td>
