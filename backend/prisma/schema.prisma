@@ -51,6 +51,7 @@ model Schedule {
   time      String
   service   String?
   via       String?
+  isExpress Boolean @default(false)
 
   route     Route   @relation(fields: [routeId], references: [id])
 }

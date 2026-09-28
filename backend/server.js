@@ -58,9 +58,9 @@ app.get('/api/data', async (req, res) => {
       company: route.companyId, line: route.line, platform: route.platform,
       estimatedPrice: route.estimatedPrice,
       schedules: {
-        weekdays: route.schedules.filter(s => s.dayType === 'WEEKDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via })),
-        saturdays: route.schedules.filter(s => s.dayType === 'SATURDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via })),
-        sundays: route.schedules.filter(s => s.dayType === 'SUNDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via }))
+        weekdays: route.schedules.filter(s => s.dayType === 'WEEKDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via, isExpress: s.isExpress })),
+        saturdays: route.schedules.filter(s => s.dayType === 'SATURDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via, isExpress: s.isExpress })),
+        sundays: route.schedules.filter(s => s.dayType === 'SUNDAYS').map(s => ({ id: s.id, time: s.time, service: s.service, via: s.via, isExpress: s.isExpress }))
       }
     }));
     res.json({ cities, companies, routes });
@@ -107,16 +107,16 @@ app.get('/api/admin/routes/:id/schedules', adminAuth, async (req, res) => {
 
 app.post('/api/admin/schedules', adminAuth, async (req, res) => {
   try {
-    const { routeId, dayType, time, service, via } = req.body;
-    const schedule = await prisma.schedule.create({ data: { routeId, dayType, time, service, via } });
+    const { routeId, dayType, time, service, via, isExpress } = req.body;
+    const schedule = await prisma.schedule.create({ data: { routeId, dayType, time, service, via, isExpress: isExpress || false } });
     res.json(schedule);
   } catch (error) { res.status(500).json({ error: 'Error creando horario: ' + error.message }); }
 });
 
 app.put('/api/admin/schedules/:id', adminAuth, async (req, res) => {
   try {
-    const { time, dayType, service, via } = req.body;
-    const updated = await prisma.schedule.update({ where: { id: parseInt(req.params.id) }, data: { time, dayType, service, via } });
+    const { time, dayType, service, via, isExpress } = req.body;
+    const updated = await prisma.schedule.update({ where: { id: parseInt(req.params.id) }, data: { time, dayType, service, via, isExpress: isExpress || false } });
     res.json(updated);
   } catch (error) { res.status(500).json({ error: 'Error actualizando horario' }); }
 });

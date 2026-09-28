@@ -4,11 +4,12 @@
 
 Este proyecto es una aplicación web rápida y sencilla para consultar los horarios de salida de colectivos desde la terminal.
 
-> ⚠️ **Estado:** El proyecto se encuentra actualmente en versión **1.7**
+>🟩 **Estado:** El proyecto se encuentra actualmente en versión **1.7.1**
 
 
 
-# **Notas del parche 1.1 1.2 1.3 1.4 1.5 1.6 y 1.7 **
+
+# Notas del parche 1.1 1.2 1.3 1.4 1.5 1.6 y 1.7
 ```
 -agregue el pronostico del tiempo
 -agregue un cache para que no se pida tanto el tiempo y se coma la api del clima
@@ -22,4 +23,5 @@ Este proyecto es una aplicación web rápida y sencilla para consultar los horar
 -1.6.2: Fix del navbar (clima)
 
 -1.7: Agregue el idioma, que se pueda cambiar el idioma de la web, agregar un selector de idioma en el navbar.
+-1.7.1: Fix en idiomas y expresos
 ```

@@ -86,7 +86,7 @@ const ScheduleEngine = {
         const diff = itemMins >= currentMinutes ? (itemMins - currentMinutes) : (itemMins - currentMinutes + 1440);
 
         if (filterType === '2hs' && diff > 120) return;
-        if (filterType === 'expreso' && !item.service.toLowerCase().includes('expreso')) return;
+        if (filterType === 'expreso' && !item.isExpress) return;
         
         departures.push({
           time: item.time,

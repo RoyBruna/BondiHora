@@ -249,7 +249,7 @@ async function renderSchedulesForDay(day) {
     const editBtn = document.createElement('button');
     editBtn.className = 'btn btn-ghost btn-sm';
     editBtn.textContent = 'Editar';
-    (function(sc) { editBtn.onclick = function() { openDrawer('edit-schedule', sc.id, sc.time, sc.dayType, sc.service || '', sc.via || ''); }; })(s);
+    (function(sc) { editBtn.onclick = function() { openDrawer('edit-schedule', sc.id, sc.time, sc.dayType, sc.service || '', sc.via || '', sc.isExpress); }; })(s);
     const delBtn = document.createElement('button');
     delBtn.className = 'btn btn-danger';
     delBtn.textContent = 'x';
@@ -365,9 +365,10 @@ function navigate(section, el) {
   if (section === 'system') checkStatus();
 }
 
-function openDrawer(mode, id, time, dayType, service, via) {
+function openDrawer(mode, id, time, dayType, service, via, isExpress) {
   drawerMode = mode;
   editTarget = id;
+  window.currentEditScheduleIsExpress = isExpress || false;
   document.getElementById('drawerOverlay').classList.add('open');
   const body = document.getElementById('drawerBody');
   const footer = document.getElementById('drawerFooter');
@@ -405,7 +406,7 @@ function openDrawer(mode, id, time, dayType, service, via) {
   } else if (mode === 'edit-schedule') {
     document.getElementById('drawerTitle').textContent = 'Editar Horario';
     body.innerHTML = '';
-    body.appendChild(buildScheduleForm({ id: id, time: time, dayType: dayType, service: service, via: via }, null));
+    body.appendChild(buildScheduleForm({ id: id, time: time, dayType: dayType, service: service, via: via, isExpress: window.currentEditScheduleIsExpress }, null));
     makeFooter('Cancelar', 'Guardar Cambios', function() { saveSchedule(true); }, 'btn-primary');
   }
 }
@@ -497,6 +498,25 @@ function buildScheduleForm(s, defaultDay) {
   row2.appendChild(makeFormGroup('Via (opcional)', makeInput('f-via', s ? s.via : '', 'Ej: Cordon', false)));
   wrap.appendChild(row2);
 
+  const row3 = document.createElement('div');
+  row3.className = 'form-row';
+  const chkDiv = document.createElement('div');
+  chkDiv.style.display = 'flex';
+  chkDiv.style.alignItems = 'center';
+  chkDiv.style.gap = '8px';
+  const chk = document.createElement('input');
+  chk.type = 'checkbox';
+  chk.id = 'f-isExpress';
+  chk.checked = s ? !!s.isExpress : false;
+  const lbl = document.createElement('label');
+  lbl.htmlFor = 'f-isExpress';
+  lbl.textContent = 'Es Expreso (Aplica al filtro Expresos)';
+  lbl.className = 'form-label';
+  lbl.style.marginBottom = '0';
+  chkDiv.appendChild(chk);
+  chkDiv.appendChild(lbl);
+  wrap.appendChild(chkDiv);
+
   return wrap;
 }
 
@@ -533,7 +553,8 @@ async function saveSchedule(isEdit) {
     time:    document.getElementById('f-time').value.trim(),
     dayType: document.getElementById('f-daytype').value,
     service: document.getElementById('f-service').value.trim() || null,
-    via:     document.getElementById('f-via').value.trim() || null
+    via:     document.getElementById('f-via').value.trim() || null,
+    isExpress: document.getElementById('f-isExpress').checked
   };
   if (!payload.time) { toast('La hora es requerida.', 'error'); return; }
   const url = isEdit ? API + '/admin/schedules/' + editTarget : API + '/admin/schedules';
