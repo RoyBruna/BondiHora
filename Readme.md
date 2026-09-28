@@ -19,4 +19,5 @@ Este proyecto es una aplicación web rápida y sencilla para consultar los horar
 
 -1.6: PWA y notificaciones push, que se pueda instalar la web como una app real.
 -1.6.1: Fix para móviles y tablets.
+-1.6.2: Fix del navbar (clima)
 ```

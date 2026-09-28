@@ -1741,15 +1741,19 @@ tr:hover .btn-alarm-trigger.icon-only,
     display: none;
   }
   
+  .weather-dropdown-container {
+    position: static; /* Allows popup to escape the overflow-x container */
+  }
+  
   .weather-popup {
-    left: 0;
-    right: auto;
-    width: 250px;
+    top: calc(100% - 5px);
+    left: 1rem;
+    width: calc(100vw - 2rem);
+    max-width: 320px;
   }
   
   .weather-popup::before {
-    left: 20px;
-    right: auto;
+    display: none; /* Hide the arrow pointer on mobile to avoid misalignment */
   }
 }
 
