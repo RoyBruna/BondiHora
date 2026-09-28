@@ -29,6 +29,15 @@
       </div>
 
       <div class="nav-actions">
+        <div id="weather-badge" class="time-badge weather-dropdown-container" style="display: none;" title="Clima en Tupungato">
+          <div class="weather-trigger" id="weather-trigger">
+            <svg id="weather-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400"></svg>
+            <span id="weather-text" style="font-weight: 800; font-size: 0.88rem; color: var(--neutral-900);">--°</span>
+          </div>
+          <div id="weather-popup" class="weather-popup">
+            <!-- Renderizado desde app.js -->
+          </div>
+        </div>
         <div class="time-badge">
           <span class="pulse-dot" title="Hora en vivo"></span>
           <span class="time-label">HORA</span>

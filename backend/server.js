@@ -160,6 +160,77 @@ app.delete('/api/alerts/:id', adminAuth, async (req, res) => {
   } catch (error) { res.status(500).json({ error: 'Error eliminando alerta' }); }
 });
 
+let weatherCache = null;
+let lastWeatherFetch = 0;
+
+app.get('/api/weather', async (req, res) => {
+  const apiKey = process.env.WEATHER_API_KEY;
+  if (!apiKey) return res.json({ temp: '--', condition: 'Clima' });
+  
+  // Cache por 10 minutos
+  if (weatherCache && (Date.now() - lastWeatherFetch < 600000)) {
+    return res.json(weatherCache);
+  }
+
+  try {
+    const lat = -33.3661;
+    const lon = -69.1479;
+    
+    const resp = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${apiKey.trim()}`);
+    if (!resp.ok) {
+      const errText = await resp.text();
+      throw new Error(`Weather API Error: ${resp.status} - ${errText}`);
+    }
+    const data = await resp.json();
+    
+    let tomorrowForecast = null;
+    try {
+      const forecastResp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${apiKey.trim()}`);
+      if (forecastResp.ok) {
+        const forecastData = await forecastResp.json();
+        
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowStr = tomorrow.getFullYear() + '-' + String(tomorrow.getMonth()+1).padStart(2,'0') + '-' + String(tomorrow.getDate()).padStart(2,'0');
+        
+        const tomorrowItems = forecastData.list.filter(item => item.dt_txt.startsWith(tomorrowStr));
+        if (tomorrowItems.length > 0) {
+          const maxTemp = Math.max(...tomorrowItems.map(i => i.main.temp_max));
+          const minTemp = Math.min(...tomorrowItems.map(i => i.main.temp_min));
+          
+          const midItem = tomorrowItems.find(i => i.dt_txt.includes('12:00:00')) || tomorrowItems[Math.floor(tomorrowItems.length / 2)];
+          tomorrowForecast = {
+            max: Math.round(maxTemp),
+            min: Math.round(minTemp),
+            condition: midItem.weather[0].description,
+            iconId: midItem.weather[0].icon
+          };
+        }
+      }
+    } catch (err) {
+      console.warn("No se pudo obtener el pronóstico de mañana", err.message);
+    }
+    
+    weatherCache = {
+      temp: Math.round(data.main.temp),
+      condition: data.weather[0].description,
+      iconId: data.weather[0].icon,
+      feelsLike: Math.round(data.main.feels_like),
+      humidity: data.main.humidity,
+      wind: Math.round(data.wind.speed * 3.6), // Convertir m/s a km/h
+      min: Math.round(data.main.temp_min),
+      max: Math.round(data.main.temp_max),
+      tomorrow: tomorrowForecast
+    };
+    lastWeatherFetch = Date.now();
+    
+    res.json(weatherCache);
+  } catch (error) {
+    console.error('Error fetching weather:', error.message);
+    res.json({ temp: '--', condition: 'Clima' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log('BondiHora Backend corriendo en http://localhost:' + PORT);
 });

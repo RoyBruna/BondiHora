@@ -118,6 +118,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  async function fetchWeather() {
+    try {
+      const res = await fetch(API_BASE_URL + '/weather');
+      if (!res.ok) return;
+      const data = await res.json();
+      
+      const badge = document.getElementById('weather-badge');
+      const text = document.getElementById('weather-text');
+      const iconSvg = document.getElementById('weather-icon-svg');
+      
+      if (badge && text && iconSvg && data && data.temp !== '--') {
+        text.textContent = `${data.temp}°`;
+        badge.title = `Clima en la región: ${data.condition}`;
+        
+        const code = data.iconId || '';
+        let svgPath = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+        
+        if (code.includes('02') || code.includes('03') || code.includes('04')) {
+          svgPath = '<path d="M17.5 19H9a7 7 0 1 1 6.71-9.9 4.5 4.5 0 1 1 1.79 8.9z"></path>';
+        } else if (code.includes('09') || code.includes('10')) {
+          svgPath = '<path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M16 14v6"></path><path d="M8 14v6"></path><path d="M12 16v6"></path>';
+        } else if (code.includes('11')) {
+          svgPath = '<path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"></path><polyline points="13 11 9 17 15 17 11 23"></polyline>';
+        } else if (code.includes('13')) {
+          svgPath = '<path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"></path><line x1="8" y1="16" x2="8.01" y2="16"></line><line x1="8" y1="20" x2="8.01" y2="20"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="12" y1="22" x2="12.01" y2="22"></line><line x1="16" y1="16" x2="16.01" y2="16"></line><line x1="16" y1="20" x2="16.01" y2="20"></line>';
+        } else if (code.includes('50')) {
+          svgPath = '<line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>';
+        } else if (code.includes('01') && code.includes('n')) {
+          svgPath = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        }
+        
+        iconSvg.innerHTML = svgPath;
+        badge.style.display = 'flex';
+      }
+    } catch (e) {
+      console.warn("No se pudo cargar el clima.");
+    }
+  }
+
   function setupChangelog() {
     const btnChangelog = document.getElementById('btn-changelog');
     const modal = document.getElementById('changelog-modal');
@@ -721,4 +760,80 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
   }
+
+  async function fetchWeather() {
+    try {
+      const res = await fetch(API_BASE_URL + '/weather');
+      if (!res.ok) return;
+      const data = await res.json();
+      
+      const badge = document.getElementById('weather-badge');
+      const text = document.getElementById('weather-text');
+      const iconSvg = document.getElementById('weather-icon-svg');
+      
+      if (badge && text && iconSvg && data && data.temp !== '--') {
+        text.textContent = `${data.temp}°`;
+        badge.title = `Clima en la región: ${data.condition}`;
+        
+        const code = data.iconId || '';
+        let svgPath = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+        let tomorrowSvgPath = svgPath;
+        
+        const getIconPath = (iconCode) => {
+          if (iconCode.includes('02') || iconCode.includes('03') || iconCode.includes('04')) return '<path d="M17.5 19H9a7 7 0 1 1 6.71-9.9 4.5 4.5 0 1 1 1.79 8.9z"></path>';
+          if (iconCode.includes('09') || iconCode.includes('10')) return '<path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M16 14v6"></path><path d="M8 14v6"></path><path d="M12 16v6"></path>';
+          if (iconCode.includes('11')) return '<path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"></path><polyline points="13 11 9 17 15 17 11 23"></polyline>';
+          if (iconCode.includes('13')) return '<path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"></path><line x1="8" y1="16" x2="8.01" y2="16"></line><line x1="8" y1="20" x2="8.01" y2="20"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="12" y1="22" x2="12.01" y2="22"></line><line x1="16" y1="16" x2="16.01" y2="16"></line><line x1="16" y1="20" x2="16.01" y2="20"></line>';
+          if (iconCode.includes('50')) return '<line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>';
+          if (iconCode.includes('01') && iconCode.includes('n')) return '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+          return '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+        };
+        
+        iconSvg.innerHTML = getIconPath(code);
+        badge.style.display = 'flex';
+        
+        // Render popup
+        const popup = document.getElementById('weather-popup');
+        if (popup) {
+          const tom = data.tomorrow;
+          let tomorrowHtml = '';
+          if (tom) {
+            tomorrowHtml = `
+              <div class="weather-popup-divider"></div>
+              <div class="weather-popup-tomorrow">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500">${getIconPath(tom.iconId)}</svg>
+                <span><strong>Mañana:</strong> ${tom.max}° / ${tom.min}° - <span style="text-transform: capitalize;">${tom.condition}</span></span>
+              </div>
+            `;
+          }
+          
+          popup.innerHTML = `
+            <div class="weather-popup-header">
+              <span>Clima Actual</span>
+              <span>${data.temp}°</span>
+            </div>
+            <div class="weather-popup-body">
+              <div><strong style="color: var(--neutral-900);">Sensación térmica:</strong> ${data.feelsLike}°</div>
+              <div><strong style="color: var(--neutral-900);">Humedad:</strong> ${data.humidity}%</div>
+              <div><strong style="color: var(--neutral-900);">Viento:</strong> ${data.wind} km/h</div>
+              <div style="text-transform: capitalize; margin-top: 0.2rem;">${data.condition} (Máx ${data.max}° / Mín ${data.min}°)</div>
+            </div>
+            ${tomorrowHtml}
+          `;
+          
+          // Click toggle behavior for mobile or sticky
+          badge.addEventListener('click', (e) => {
+            e.stopPropagation();
+            badge.classList.toggle('active');
+          });
+          document.addEventListener('click', () => badge.classList.remove('active'));
+        }
+      }
+    } catch (e) {
+      console.warn("No se pudo cargar el clima.");
+    }
+  }
+
+  fetchWeather();
+  setInterval(fetchWeather, 600000);
 });
