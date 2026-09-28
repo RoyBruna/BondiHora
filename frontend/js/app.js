@@ -99,17 +99,53 @@ document.addEventListener('DOMContentLoaded', async () => {
       globalAlerts.forEach(alert => {
         if (dismissed.includes(alert.id)) return; 
         
-        const style = styles[alert.severity] || styles.gray;
+        const severityConfig = {
+          red: {
+            tag: 'var(--color-red-tag)',
+            title: 'var(--color-red-title)',
+            detail: 'var(--color-red-detail)',
+            bg: 'var(--color-red-bg)',
+            accent: '#dc2626',
+            icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`
+          },
+          yellow: {
+            tag: 'var(--color-yellow-tag)',
+            title: 'var(--color-yellow-title)',
+            detail: 'var(--color-yellow-detail)',
+            bg: 'var(--color-yellow-bg)',
+            accent: '#d97706',
+            icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
+          },
+          green: {
+            tag: 'var(--color-green-tag)',
+            title: 'var(--color-green-title)',
+            detail: 'var(--color-green-detail)',
+            bg: 'var(--color-green-bg)',
+            accent: '#16a34a',
+            icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
+          },
+          gray: {
+            tag: 'var(--color-gray-tag)',
+            title: 'var(--color-gray-title)',
+            detail: 'var(--color-gray-detail)',
+            bg: 'var(--color-gray-bg)',
+            accent: '#64748b',
+            icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
+          }
+        };
+        
+        const cfg = severityConfig[alert.severity] || severityConfig.gray;
         const div = document.createElement('div');
         div.id = `alert-card-${alert.id}`;
-        div.className = `${style.bg} border-l-4 ${style.border} shadow-lg rounded p-4 relative backdrop-blur-sm bg-opacity-90 transition-all duration-300`;
+        div.style.cssText = `background: ${cfg.bg}; border-left: 3px solid ${cfg.accent}; padding: 0.85rem 1rem; position: relative; border-radius: 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); transition: all 0.3s;`;
         div.innerHTML = `
-          <button onclick="window.dismissAlert(${alert.id})" class="absolute top-2 right-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200" title="Cerrar">&times;</button>
-          <div class="text-xs font-bold ${style.text} uppercase mb-1 flex items-center gap-1">
-            <span>${style.icon}</span> ${alert.tag}
+          <button onclick="window.dismissAlert(${alert.id})" style="position: absolute; top: 8px; right: 10px; background: none; border: none; cursor: pointer; color: ${cfg.detail}; font-size: 1rem; line-height: 1; opacity: 0.6;" title="Cerrar">&times;</button>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: ${cfg.accent};">
+            ${cfg.icon}
+            <span style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: ${cfg.tag};">${alert.tag}</span>
           </div>
-          <h4 class="font-bold text-sm mb-1 text-slate-800 dark:text-slate-100 pr-4">${alert.title}</h4>
-          <p class="text-xs text-slate-600 dark:text-slate-400">${alert.detail}</p>
+          <p style="font-size: 0.88rem; font-weight: 700; color: ${cfg.title}; margin: 0 0 2px; padding-right: 1rem;">${alert.title}</p>
+          <p style="font-size: 0.78rem; color: ${cfg.detail}; margin: 0;">${alert.detail}</p>
         `;
         container.appendChild(div);
       });
@@ -172,24 +208,53 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       
-      const styles = {
-        gray: { border: 'border-slate-500', icon: 'ℹ️', text: 'text-slate-500', bg: 'bg-white dark:bg-slate-900' },
-        green: { border: 'border-emerald-500', icon: '✅', text: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-        yellow: { border: 'border-amber-500', icon: '⚠️', text: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
-        red: { border: 'border-red-500', icon: '🚨', text: 'text-red-500', bg: 'bg-red-50 dark:bg-red-950/30' }
+      const severityConfig = {
+        red: {
+          tag: 'var(--color-red-tag)',
+          title: 'var(--color-red-title)',
+          detail: 'var(--color-red-detail)',
+          bg: 'var(--color-red-bg)',
+          accent: '#dc2626',
+          icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #dc2626"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`
+        },
+        yellow: {
+          tag: 'var(--color-yellow-tag)',
+          title: 'var(--color-yellow-title)',
+          detail: 'var(--color-yellow-detail)',
+          bg: 'var(--color-yellow-bg)',
+          accent: '#d97706',
+          icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #d97706"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
+        },
+        green: {
+          tag: 'var(--color-green-tag)',
+          title: 'var(--color-green-title)',
+          detail: 'var(--color-green-detail)',
+          bg: 'var(--color-green-bg)',
+          accent: '#16a34a',
+          icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #16a34a"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
+        },
+        gray: {
+          tag: 'var(--color-gray-tag)',
+          title: 'var(--color-gray-title)',
+          detail: 'var(--color-gray-detail)',
+          bg: 'var(--color-gray-bg)',
+          accent: '#64748b',
+          icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
+        }
       };
 
       globalAlerts.forEach(alert => {
-        const style = styles[alert.severity] || styles.gray;
+        const cfg = severityConfig[alert.severity] || severityConfig.gray;
         const div = document.createElement('div');
-        div.className = `${style.bg} border-l-4 ${style.border} rounded p-3 mb-3`;
+        div.style.cssText = `background: ${cfg.bg}; border-left: 3px solid ${cfg.accent}; padding: 0.85rem 1rem; margin-bottom: 0.75rem; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);`;
         div.innerHTML = `
-          <div class="text-xs font-bold ${style.text} uppercase mb-1 flex items-center gap-1">
-            <span>${style.icon}</span> ${alert.tag} 
-            <span class="text-[10px] text-slate-400 font-normal ml-auto">${new Date(alert.createdAt).toLocaleString()}</span>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+            ${cfg.icon}
+            <span style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: ${cfg.tag};">${alert.tag}</span>
+            <span style="font-size: 0.68rem; color: ${cfg.detail}; margin-left: auto; opacity: 0.75;">${new Date(alert.createdAt).toLocaleString()}</span>
           </div>
-          <h4 class="font-bold text-sm text-slate-800 dark:text-slate-100">${alert.title}</h4>
-          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">${alert.detail}</p>
+          <p style="font-size: 0.9rem; font-weight: 700; color: ${cfg.title}; margin: 0 0 3px;">${alert.title}</p>
+          <p style="font-size: 0.8rem; color: ${cfg.detail}; margin: 0; line-height: 1.5;">${alert.detail}</p>
         `;
         historyContainer.appendChild(div);
       });
