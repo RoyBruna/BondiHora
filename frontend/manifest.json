@@ -1,0 +1,25 @@
+{
+  "name": "BondiHora - Horarios de Colectivos",
+  "short_name": "BondiHora",
+  "description": "Horarios de colectivos de Tupungato. Consultá salidas, frecuencias y alertas en tiempo real.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0e1f18",
+  "theme_color": "#72aa80",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

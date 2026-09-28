@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initMap();
     fetchAndRenderAlerts();
     setupChangelog();
+    setupPWA();
   }
 
   let globalAlerts = [];
@@ -901,4 +902,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   fetchWeather();
   setInterval(fetchWeather, 600000);
+
+  function setupPWA() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+
+    const closeBtn = document.getElementById('btn-close-app');
+    if (closeBtn) {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      if (isStandalone) {
+        closeBtn.style.display = 'flex';
+        closeBtn.addEventListener('click', () => window.close());
+      }
+    }
+
+    if ('Notification' in window && Notification.permission === 'default') {
+      setTimeout(() => {
+        const hasCriticalAlerts = globalAlerts.some(a => a.severity === 'red' || a.severity === 'yellow');
+        if (hasCriticalAlerts) {
+          Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+              globalAlerts
+                .filter(a => a.severity === 'red' || a.severity === 'yellow')
+                .forEach(alert => {
+                  new Notification(`${alert.tag} — ${alert.title}`, {
+                    body: alert.detail,
+                    icon: '/assets/icon-192.png',
+                    tag: `alert-${alert.id}`
+                  });
+                });
+            }
+          });
+        }
+      }, 3000);
+    }
+  }
+
 });

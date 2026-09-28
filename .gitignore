@@ -21,3 +21,4 @@ Thumbs.db
 .idea/
 
 # (La carpeta backend fue habilitada para poder hacer deploy en Render)
+Change.txt
