@@ -16,6 +16,7 @@
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
+  <script src="js/i18n.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -28,12 +29,30 @@
         <img src="assets/T-2024-09.png" alt="Municipalidad de Tupungato" class="brand-t-logo">
         <div class="brand-divider" aria-hidden="true"></div>
         <div class="brand-text">
-          <h1>Horarios Colectivos</h1>
+          <h1 data-i18n="app_title">Horarios Colectivos</h1>
           <span id="current-day-badge">Lunes a Viernes</span>
         </div>
       </div>
 
       <div class="nav-actions">
+        <!-- Selector de Idioma -->
+        <div id="lang-badge" class="time-badge weather-dropdown-container" title="Cambiar idioma">
+          <div class="weather-trigger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400">
+              <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span id="lang-text" style="font-weight: 800; font-size: 0.88rem; color: var(--neutral-900);">ES</span>
+          </div>
+          <div class="weather-popup" id="lang-popup" style="width: 150px; padding: 0.5rem;">
+            <div class="lang-option" data-lang="es" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇦🇷</span> Español</div>
+            <div class="lang-option" data-lang="en" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇺🇸</span> English</div>
+            <div class="lang-option" data-lang="pt" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇧🇷</span> Português</div>
+            <div class="lang-option" data-lang="de" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="zh" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇨🇳</span> 中文</div>
+            <div class="lang-option" data-lang="ru" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇷🇺</span> Русский</div>
+          </div>
+        </div>
+
         <div id="weather-badge" class="time-badge weather-dropdown-container" style="display: none;" title="Clima en Tupungato">
           <div class="weather-trigger" id="weather-trigger">
             <svg id="weather-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400"></svg>
@@ -48,8 +67,8 @@
           <span class="time-label">HORA</span>
           <span id="live-clock">00:00<span class="clock-seconds">:00</span></span>
         </div>
-        <button id="btn-changelog" class="btn-theme" aria-label="Ver Historial de Novedades">🔔 Novedades</button>
-        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)">Modo Oscuro</button>
+        <button id="btn-changelog" class="btn-theme" aria-label="Ver Historial de Novedades" data-i18n="nav_news">🔔 Novedades</button>
+        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)" data-i18n="nav_dark_mode">Modo Oscuro</button>
         <button id="btn-close-app" class="btn-theme btn-close-pwa" aria-label="Cerrar aplicación" style="display:none;" title="Cerrar app">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -65,10 +84,10 @@
         
         <div class="travel-direction-container mb-3">
           <div class="direction-toggle-group" role="radiogroup" aria-label="Sentido del viaje">
-            <button id="dir-outgoing" class="dir-btn active" type="button" data-dir="outgoing">
+            <button id="dir-outgoing" class="dir-btn active" type="button" data-dir="outgoing" data-i18n="dir_outgoing">
               Salgo desde Tupungato
             </button>
-            <button id="dir-incoming" class="dir-btn" type="button" data-dir="incoming">
+            <button id="dir-incoming" class="dir-btn" type="button" data-dir="incoming" data-i18n="dir_incoming">
               Vuelvo a Tupungato
             </button>
           </div>
@@ -76,42 +95,42 @@
 
         
         <div class="quick-dest-section mb-2">
-          <span id="quick-dest-label" class="field-label-text block mb-2">SELECCIONÁ TU DESTINO:</span>
+          <span id="quick-dest-label" class="field-label-text block mb-2" data-i18n="dest_label_out">SELECCIONÁ TU DESTINO:</span>
           <div id="quick-dest-grid" class="quick-dest-grid">
             <button class="dest-card active" data-dest="mendoza" type="button">
               <div class="dest-card-header">
                 <div class="dest-name">Mendoza</div>
-                <span class="dest-badge">Terminal</span>
+                <span class="dest-badge" data-i18n="badge_terminal">Terminal</span>
               </div>
-              <div class="dest-sub">Terminal Capital</div>
+              <div class="dest-sub" data-i18n="dest_sub_mdz">Terminal Capital</div>
             </button>
             <button class="dest-card" data-dest="tunuyan" type="button">
               <div class="dest-card-header">
                 <div class="dest-name">Tunuyán</div>
-                <span class="dest-badge">Terminal</span>
+                <span class="dest-badge" data-i18n="badge_terminal">Terminal</span>
               </div>
-              <div class="dest-sub">Terminal Tunuyán</div>
+              <div class="dest-sub" data-i18n="dest_sub_tuy">Terminal Tunuyán</div>
             </button>
             <button class="dest-card" data-dest="eugeniobustos" type="button">
               <div class="dest-card-header">
                 <div class="dest-name">Eugenio Bustos</div>
-                <span class="dest-badge">Terminal</span>
+                <span class="dest-badge" data-i18n="badge_terminal">Terminal</span>
               </div>
-              <div class="dest-sub">Pasa por Vista Flores y La Consulta</div>
+              <div class="dest-sub" data-i18n="dest_sub_eug">Pasa por Vista Flores y La Consulta</div>
             </button>
             <button class="dest-card dest-card-local" data-dest="rim11" type="button">
               <div class="dest-card-header">
                 <div class="dest-name">Sergi / RIM 11</div>
-                <span class="dest-badge dest-badge-route">Recorrido por Paradas</span>
+                <span class="dest-badge dest-badge-route" data-i18n="badge_stops">Recorrido por Paradas</span>
               </div>
-              <div class="dest-sub">Recorrido local (Vencedora, El Peral y RIM 11)</div>
+              <div class="dest-sub" data-i18n="dest_sub_sergi">Recorrido local (Vencedora, El Peral y RIM 11)</div>
             </button>
           </div>
         </div>
 
        
         <details class="advanced-search-details mt-2">
-          <summary class="advanced-toggle-text">Filtros o búsqueda manual de localidades</summary>
+          <summary class="advanced-toggle-text" data-i18n="filters_advanced">Filtros o búsqueda manual de localidades</summary>
           <form class="search-grid pt-3" onsubmit="return false;">
             <div class="form-group">
               <label for="select-origin" class="sr-only">Origen (Desde)</label>

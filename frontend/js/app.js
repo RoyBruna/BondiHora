@@ -54,6 +54,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchAndRenderAlerts();
     setupChangelog();
     setupPWA();
+    setupLanguage();
+  }
+
+  function setupLanguage() {
+    if (window.i18n) {
+      window.i18n.applyTranslations();
+      const langBadge = document.getElementById('lang-badge');
+      const langText = document.getElementById('lang-text');
+      
+      // Update text based on current lang
+      langText.textContent = window.i18n.currentLang.toUpperCase();
+
+      // Dropdown toggle logic
+      langBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langBadge.classList.toggle('active');
+      });
+
+      document.addEventListener('click', () => {
+        langBadge.classList.remove('active');
+      });
+
+      // Handle language selection
+      document.querySelectorAll('.lang-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const selectedLang = option.getAttribute('data-lang');
+          window.i18n.setLang(selectedLang);
+          langText.textContent = selectedLang.toUpperCase();
+          langBadge.classList.remove('active');
+          
+          // Re-render UI elements that might be dynamic
+          renderResults();
+        });
+      });
+    }
   }
 
   let globalAlerts = [];
