@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bondihora-v1';
+const CACHE_NAME = 'bondihora-v3';
 
 const STATIC_ASSETS = [
   '/',
@@ -8,7 +8,14 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/assets/T-2024-09.png',
   '/assets/icon-192.png',
-  '/assets/icon-512.png'
+  '/assets/icon-512.png',
+  '/js/config.js',
+  '/js/data.js',
+  '/js/scheduleEngine.js',
+  '/js/alarmEngine.js',
+  '/js/changelog.js',
+  '/js/i18n.js',
+  '/js/app.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -34,6 +41,8 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(event.request).catch(() =>
         new Response(JSON.stringify({ error: 'Sin conexión' }), {
+          status: 503,
+          statusText: 'Service Unavailable',
           headers: { 'Content-Type': 'application/json' }
         })
       )
@@ -42,7 +51,18 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches.match(event.request).then((cached) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+        }
+        return networkResponse;
+      }).catch(() => {
+        // Si falla la red, no hacemos nada (ya servimos el cache)
+      });
+      return cached || fetchPromise;
+    })
   );
 });
 

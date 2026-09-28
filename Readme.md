@@ -4,7 +4,7 @@
 
 Este proyecto es una aplicación web rápida y sencilla para consultar los horarios de salida de colectivos desde la terminal.
 
->🟩 **Estado:** El proyecto se encuentra actualmente en versión **1.7.1**
+>🟩 **Estado:** El proyecto se encuentra actualmente en versión **1.7.2**
 
 
 
@@ -24,4 +24,5 @@ Este proyecto es una aplicación web rápida y sencilla para consultar los horar
 
 -1.7: Agregue el idioma, que se pueda cambiar el idioma de la web, agregar un selector de idioma en el navbar.
 -1.7.1: Fix en idiomas y expresos
+-1.7.2: Fix cache correcion del PWA y errores.
 ```
