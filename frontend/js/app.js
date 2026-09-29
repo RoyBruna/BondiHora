@@ -485,6 +485,90 @@ document.addEventListener('DOMContentLoaded', async () => {
     selectOrigin.addEventListener('change', renderResults);
     selectDestination.addEventListener('change', renderResults);
     
+    const btnDownloadImg = document.getElementById('btn-download-img');
+    if (btnDownloadImg) {
+      btnDownloadImg.addEventListener('click', async () => {
+        const tableWrapper = document.querySelector('.timetable-container');
+        const innerWrapper = document.querySelector('.table-wrapper');
+        if (!tableWrapper || !innerWrapper) return;
+        
+        // Agregar marca de agua temporal repetida
+        const watermark = document.createElement('div');
+        watermark.style.position = 'absolute';
+        watermark.style.top = '0';
+        watermark.style.left = '0';
+        watermark.style.width = '100%';
+        watermark.style.height = '100%';
+        watermark.style.backgroundImage = 'url("assets/Titulo-Bondihora.png")';
+        watermark.style.backgroundRepeat = 'repeat';
+        watermark.style.backgroundSize = '300px';
+        watermark.style.opacity = '0.06';
+        watermark.style.pointerEvents = 'none';
+        watermark.style.zIndex = '0';
+        
+        // Guardar estilos originales
+        const originalPos = tableWrapper.style.position;
+        const originalBg = tableWrapper.style.backgroundColor;
+        const originalWidth = tableWrapper.style.width;
+        const originalMaxWidth = tableWrapper.style.maxWidth;
+        const originalInnerOverflow = innerWrapper.style.overflow;
+        const originalInnerWidth = innerWrapper.style.width;
+        
+        // Forzar ancho completo para evitar recortes en pantallas chicas (scroll horizontal)
+        const fullWidth = innerWrapper.scrollWidth;
+        tableWrapper.style.position = 'relative';
+        tableWrapper.style.backgroundColor = 'var(--surface-card)';
+        tableWrapper.style.width = (fullWidth + 30) + 'px';
+        tableWrapper.style.maxWidth = 'none';
+        
+        innerWrapper.style.overflow = 'visible';
+        innerWrapper.style.width = fullWidth + 'px';
+        
+        // Ajustar tema oscuro a claro para impresion
+        const isDark = document.body.classList.contains('dark-theme');
+        if (isDark) {
+          document.body.classList.remove('dark-theme');
+        }
+        
+        tableWrapper.appendChild(watermark);
+
+        // Cambiar texto de boton por feedback
+        const originalBtnHTML = btnDownloadImg.innerHTML;
+        btnDownloadImg.innerHTML = 'Generando...';
+        
+        try {
+          if (!window.html2canvas) throw new Error("html2canvas no cargó");
+          // Darle tiempo al navegador a re-renderizar la tabla expandida
+          await new Promise(r => setTimeout(r, 200));
+          
+          const canvas = await window.html2canvas(tableWrapper, { 
+            scale: 2, 
+            backgroundColor: '#ffffff'
+          });
+          const imgUrl = canvas.toDataURL('image/png');
+          
+          const a = document.createElement('a');
+          a.href = imgUrl;
+          a.download = `Planilla-BondiHora-${new Date().toLocaleDateString('es-AR').replace(/\//g, '-')}.png`;
+          a.click();
+        } catch (e) {
+          console.error('Error generando imagen:', e);
+          alert('Hubo un error al generar la imagen. Intenta de nuevo.');
+        } finally {
+          tableWrapper.removeChild(watermark);
+          tableWrapper.style.position = originalPos;
+          tableWrapper.style.backgroundColor = originalBg;
+          tableWrapper.style.width = originalWidth;
+          tableWrapper.style.maxWidth = originalMaxWidth;
+          innerWrapper.style.overflow = originalInnerOverflow;
+          innerWrapper.style.width = originalInnerWidth;
+          
+          btnDownloadImg.innerHTML = originalBtnHTML;
+          if (isDark) document.body.classList.add('dark-theme');
+        }
+      });
+    }
+
     updateQuickSelection();
   }
 
