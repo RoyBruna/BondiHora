@@ -1,0 +1,85 @@
+﻿LICENCIA DE SOFTWARE PROPIETARIO
+Bondi-Hora - Sistema de Consulta de Horarios de Colectivos
+==========================================================
+
+Copyright (c) 2026 Roy Bruna. Todos los derechos reservados.
+
+AVISO IMPORTANTE: LEA ESTE DOCUMENTO ANTES DE UTILIZAR, REPRODUCIR O DISTRIBUIR ESTE SOFTWARE.
+
+--------------------------------------------------------------------------
+
+1. TITULARIDAD DE LOS DERECHOS
+
+   El presente software, incluyendo pero no limitandose a su codigo fuente,
+   codigo compilado, diseno de interfaz, base de datos, documentacion, logotipos,
+   nombres, marcas y cualquier obra derivada (en conjunto, el "Software"), es
+   propiedad intelectual exclusiva de:
+
+       Roy Bruna
+       Tupungato, Mendoza, Republica Argentina
+       GitHub:  https://github.com/RoyBruna
+       Email:   roybruna1580@gmail.com
+
+   El Software fue creado como proyecto personal y academico, con participacion
+   del equipo Print("EstoyCansadoJefe"), cuyos integrantes son co-autores del
+   proceso creativo original.
+
+2. DERECHOS RESERVADOS
+
+   Queda expresamente PROHIBIDO, sin autorizacion previa y por escrito del titular:
+
+   a) Copiar, reproducir o duplicar el Software en su totalidad o en parte.
+   b) Modificar, adaptar, traducir o crear obras derivadas basadas en el Software.
+   c) Distribuir, sublicenciar, vender, alquilar o prestar el Software a terceros.
+   d) Descompilar, desensamblar, aplicar ingenieria inversa o intentar obtener
+      el codigo fuente del Software compilado.
+   e) Usar el nombre "Bondi-Hora", el logotipo o cualquier elemento visual o
+      de marca asociado al Software con fines comerciales o publicitarios.
+   f) Publicar el Software o partes del mismo en repositorios publicos o privados
+      sin consentimiento expreso del titular.
+
+3. USO PERMITIDO
+
+   Se permite unicamente el uso personal y no comercial del Software tal como
+   se encuentra publicado en su version oficial, accesible a traves de los
+   canales autorizados por el titular.
+
+   Cualquier uso diferente al descrito requiere una licencia comercial explicita
+   otorgada por escrito por Roy Bruna.
+
+4. AUSENCIA DE GARANTIA
+
+   EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTIA DE NINGUN TIPO,
+   EXPRESA O IMPLICITA, INCLUYENDO PERO NO LIMITANDOSE A LAS GARANTIAS
+   IMPLICITAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPOSITO PARTICULAR Y
+   NO INFRACCION.
+
+   EN NINGUN CASO EL TITULAR SERA RESPONSABLE POR DANOS DIRECTOS, INDIRECTOS,
+   INCIDENTALES, ESPECIALES O CONSECUENTES QUE SURJAN DEL USO O IMPOSIBILIDAD
+   DE USO DEL SOFTWARE.
+
+5. JURISDICCION Y LEY APLICABLE
+
+   Este acuerdo se rige por las leyes de la Republica Argentina, en particular
+   por la Ley 11.723 de Propiedad Intelectual y sus modificaciones, asi como por
+   los tratados internacionales de derechos de autor de los que Argentina es
+   parte (Convenio de Berna, Convenio de Roma, Acuerdo TRIPS).
+
+   Para cualquier disputa, las partes se someten a la jurisdiccion de los
+   Tribunales Ordinarios del Departamento de Tupungato, Provincia de Mendoza,
+   Republica Argentina.
+
+6. CONTACTO PARA LICENCIAS
+
+   Para solicitar una licencia de uso, reportar una infraccion o realizar una
+   consulta legal, comuniquese con:
+
+       Roy Bruna
+       Email:   roybruna1580@gmail.com
+       GitHub:  https://github.com/RoyBruna
+       Tel.:    +54 9 2622 316913
+
+--------------------------------------------------------------------------
+
+(c) 2026 Roy Bruna - Todos los derechos reservados.
+Print("EstoyCansadoJefe") - Equipo de desarrollo original.

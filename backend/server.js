@@ -140,15 +140,30 @@ app.get('/api/admin/companies', adminAuth, async (req, res) => {
 
 app.get('/api/alerts', async (req, res) => {
   try {
-    const alerts = await prisma.alert.findMany({ where: { isActive: true }, orderBy: { createdAt: 'desc' } });
+    const alerts = await prisma.alert.findMany({ 
+      where: { 
+        isActive: true,
+        OR: [
+          { expiresAt: null },
+          { expiresAt: { gt: new Date() } }
+        ]
+      }, 
+      orderBy: { createdAt: 'desc' } 
+    });
     res.json(alerts);
   } catch (error) { res.status(500).json({ error: 'Error obteniendo alertas' }); }
 });
 
 app.post('/api/alerts', adminAuth, async (req, res) => {
   try {
-    const { tag, title, detail, severity } = req.body;
-    const newAlert = await prisma.alert.create({ data: { tag, title, detail, severity: severity || 'gray' } });
+    const { tag, title, detail, severity, expiresInHours } = req.body;
+    let expiresAt = null;
+    if (expiresInHours && !isNaN(expiresInHours)) {
+      expiresAt = new Date(Date.now() + Number(expiresInHours) * 60 * 60 * 1000);
+    }
+    const newAlert = await prisma.alert.create({ 
+      data: { tag, title, detail, severity: severity || 'gray', expiresAt } 
+    });
     res.json(newAlert);
   } catch (error) { res.status(500).json({ error: 'Error creando alerta' }); }
 });

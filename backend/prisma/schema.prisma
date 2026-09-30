@@ -64,4 +64,5 @@ model Alert {
   severity  String   @default("gray")
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+  expiresAt DateTime?
 }

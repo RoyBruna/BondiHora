@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initMap();
     fetchAndRenderAlerts();
     setupChangelog();
+    setupDonateModal();
     setupPWA();
     setupLanguage();
   }
@@ -1057,6 +1058,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }, 3000);
     }
+  }
+
+
+
+  function setupDonateModal() {
+    const btnDonar = document.getElementById('btn-donar');
+    const modal = document.getElementById('donate-modal');
+    const btnClose = document.getElementById('close-donate-modal');
+
+    if (!btnDonar || !modal) return;
+
+    btnDonar.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Evitar scroll
+    });
+
+    const closeModal = () => {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    };
+
+    if (btnClose) btnClose.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
   }
 
 });

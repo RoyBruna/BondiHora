@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Horarios de Colectivos - Terminal de Ómnibus</title>
-  <meta name="description" content="Consulta rápida de horarios de colectivos, salidas desde la terminal, frecuencias próximas y planillas de colectivos entre Tupungato, Tunuyán, San Carlos y Mendoza.">
+  <meta name="description"
+    content="Consulta rápida de horarios de colectivos, salidas desde la terminal, frecuencias próximas y planillas de colectivos entre Tupungato, Tunuyán, San Carlos y Mendoza.">
   <meta name="theme-color" content="#72aa80">
-  
+
   <link rel="icon" type="image/png" href="assets/T-2024-09.png">
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +23,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+
+<body
+  class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
 
   <header class="navbar">
     <div class="container nav-content">
@@ -38,24 +42,43 @@
         <!-- Selector de Idioma -->
         <div id="lang-badge" class="time-badge weather-dropdown-container" title="Cambiar idioma">
           <div class="weather-trigger">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400">
-              <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
             </svg>
             <span id="lang-text" style="font-weight: 800; font-size: 0.88rem; color: var(--neutral-900);">ES</span>
           </div>
           <div class="weather-popup" id="lang-popup" style="width: 150px; padding: 0.5rem;">
-            <div class="lang-option" data-lang="es" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇦🇷</span> Español</div>
-            <div class="lang-option" data-lang="en" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇺🇸</span> English</div>
-            <div class="lang-option" data-lang="pt" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇧🇷</span> Português</div>
-            <div class="lang-option" data-lang="de" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇩🇪</span> Deutsch</div>
-            <div class="lang-option" data-lang="zh" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇨🇳</span> 中文</div>
-            <div class="lang-option" data-lang="ru" style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span style="font-size:1.2rem;">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="es"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇦🇷</span> Español</div>
+            <div class="lang-option" data-lang="en"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇺🇸</span> English</div>
+            <div class="lang-option" data-lang="pt"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇧🇷</span> Português</div>
+            <div class="lang-option" data-lang="de"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="zh"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇨🇳</span> 中文</div>
+            <div class="lang-option" data-lang="ru"
+              style="cursor:pointer; padding:0.5rem; display:flex; align-items:center; gap:0.5rem;"><span
+                style="font-size:1.2rem;">🇷🇺</span> Русский</div>
           </div>
         </div>
 
-        <div id="weather-badge" class="time-badge weather-dropdown-container" style="display: none;" title="Clima en Tupungato">
+        <div id="weather-badge" class="time-badge weather-dropdown-container" style="display: none;"
+          title="Clima en Tupungato">
           <div class="weather-trigger" id="weather-trigger">
-            <svg id="weather-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400"></svg>
+            <svg id="weather-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="text-slate-500 dark:text-slate-400"></svg>
             <span id="weather-text" style="font-weight: 800; font-size: 0.88rem; color: var(--neutral-900);">--°</span>
           </div>
           <div id="weather-popup" class="weather-popup">
@@ -67,10 +90,17 @@
           <span class="time-label">HORA</span>
           <span id="live-clock">00:00<span class="clock-seconds">:00</span></span>
         </div>
-        <button id="btn-changelog" class="btn-theme" aria-label="Ver Historial de Novedades" data-i18n="nav_news">🔔 Novedades</button>
-        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)" data-i18n="nav_dark_mode">Modo Oscuro</button>
-        <button id="btn-close-app" class="btn-theme btn-close-pwa" aria-label="Cerrar aplicación" style="display:none;" title="Cerrar app">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <button id="btn-changelog" class="btn-theme" aria-label="Ver Historial de Novedades" data-i18n="nav_news">🔔
+          Novedades</button>
+        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema visual (Modo Claro/Oscuro)"
+          data-i18n="nav_dark_mode">Modo Oscuro</button>
+        <button id="btn-close-app" class="btn-theme btn-close-pwa" aria-label="Cerrar aplicación" style="display:none;"
+          title="Cerrar app">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
     </div>
@@ -79,9 +109,9 @@
   <main class="py-4">
     <div class="container">
 
-      
+
       <section class="search-card mb-4" aria-label="Buscador de colectivos">
-        
+
         <div class="travel-direction-container mb-3">
           <div class="direction-toggle-group" role="radiogroup" aria-label="Sentido del viaje">
             <button id="dir-outgoing" class="dir-btn active" type="button" data-dir="outgoing" data-i18n="dir_outgoing">
@@ -93,9 +123,10 @@
           </div>
         </div>
 
-        
+
         <div class="quick-dest-section mb-2">
-          <span id="quick-dest-label" class="field-label-text block mb-2" data-i18n="dest_label_out">SELECCIONÁ TU DESTINO:</span>
+          <span id="quick-dest-label" class="field-label-text block mb-2" data-i18n="dest_label_out">SELECCIONÁ TU
+            DESTINO:</span>
           <div id="quick-dest-grid" class="quick-dest-grid">
             <button class="dest-card active" data-dest="mendoza" type="button">
               <div class="dest-card-header">
@@ -121,16 +152,37 @@
             <button class="dest-card dest-card-local" data-dest="rim11" type="button">
               <div class="dest-card-header">
                 <div class="dest-name">Sergi / RIM 11</div>
+              </div>
+              <div style="margin-bottom: 4px;">
                 <span class="dest-badge dest-badge-route" data-i18n="badge_stops">Recorrido por Paradas</span>
               </div>
               <div class="dest-sub" data-i18n="dest_sub_sergi">Recorrido local (Vencedora, El Peral y RIM 11)</div>
             </button>
+            <button class="dest-card dest-card-local" data-dest="arboleda" type="button">
+              <div class="dest-card-header">
+                <div class="dest-name">Arboleda / Zampal</div>
+              </div>
+              <div style="margin-bottom: 4px;">
+                <span class="dest-badge dest-badge-route" data-i18n="badge_stops">Recorrido por Paradas</span>
+              </div>
+              <div class="dest-sub" data-i18n="dest_sub_arboleda">Recorrido local (Arboleda, Dubois, Zampal)</div>
+            </button>
+            <button class="dest-card dest-card-local" data-dest="sanjose" type="button">
+              <div class="dest-card-header">
+                <div class="dest-name">San José / V. Bastías</div>
+              </div>
+              <div style="margin-bottom: 4px;">
+                <span class="dest-badge dest-badge-route" data-i18n="badge_stops">Recorrido por Paradas</span>
+              </div>
+              <div class="dest-sub" data-i18n="dest_sub_sanjose">Recorrido local (San José, Villa Bastías, Ancón)</div>
+            </button>
           </div>
         </div>
 
-       
+
         <details class="advanced-search-details mt-2">
-          <summary class="advanced-toggle-text" data-i18n="filters_advanced">Filtros o búsqueda manual de localidades</summary>
+          <summary class="advanced-toggle-text" data-i18n="filters_advanced">Filtros o búsqueda manual de localidades
+          </summary>
           <form class="search-grid pt-3" onsubmit="return false;">
             <div class="form-group">
               <label for="select-origin" class="sr-only">Origen (Desde)</label>
@@ -140,7 +192,8 @@
               </div>
             </div>
 
-            <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino" aria-label="Intercambiar origen y destino">
+            <button id="btn-swap" class="btn-swap" type="button" title="Intercambiar origen y destino"
+              aria-label="Intercambiar origen y destino">
               ⇄
             </button>
 
@@ -159,21 +212,25 @@
         </details>
       </section>
 
-    
+
       <div class="top-controls-bar">
         <div class="view-tabs">
           <button id="tab-upcoming" class="tab-btn active" aria-label="Ver próximas salidas" data-i18n="tab_upcoming">
             Próximas Salidas
           </button>
-          <button id="tab-timetable" class="tab-btn" aria-label="Ver planilla completa de horarios" data-i18n="tab_timetable">
+          <button id="tab-timetable" class="tab-btn" aria-label="Ver planilla completa de horarios"
+            data-i18n="tab_timetable">
             Planilla Completa
           </button>
         </div>
 
         <div id="quick-filters" class="quick-filters-bar" aria-label="Filtros rápidos">
-          <button class="filter-chip active" data-filter="all" aria-label="Mostrar todas las salidas" data-i18n="filter_all">Todas</button>
-          <button class="filter-chip" data-filter="2hs" aria-label="Mostrar salidas de las próximas 2 horas" data-i18n="filter_2h">Próximas 2hs</button>
-          <button class="filter-chip" data-filter="expreso" aria-label="Mostrar solo servicios expresos" data-i18n="filter_express">Expresos</button>
+          <button class="filter-chip active" data-filter="all" aria-label="Mostrar todas las salidas"
+            data-i18n="filter_all">Todas</button>
+          <button class="filter-chip" data-filter="2hs" aria-label="Mostrar salidas de las próximas 2 horas"
+            data-i18n="filter_2h">Próximas 2hs</button>
+          <button class="filter-chip" data-filter="expreso" aria-label="Mostrar solo servicios expresos"
+            data-i18n="filter_express">Expresos</button>
         </div>
       </div>
 
@@ -183,21 +240,30 @@
         <div id="upcoming-list-container" class="upcoming-list"></div>
       </section>
 
-      
+
       <section id="view-timetable" class="timetable-container" style="display: none;">
         <div class="timetable-header">
           <div style="display: flex; align-items: center; gap: 1rem;">
             <h3 id="timetable-title" style="margin:0;">Planilla de Horarios</h3>
-            <button id="btn-download-img" class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.8rem; display: flex; align-items: center; gap: 4px;" title="Descargar como Imagen" aria-label="Descargar horarios como imagen">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <button id="btn-download-img" class="btn btn-outline"
+              style="padding: 0.3rem 0.6rem; font-size: 0.8rem; display: flex; align-items: center; gap: 4px;"
+              title="Descargar como Imagen" aria-label="Descargar horarios como imagen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               Descargar Img
             </button>
           </div>
-          
+
           <div class="day-selector" aria-label="Seleccionar tipo de día">
-            <button class="day-btn active" data-day="weekdays" aria-label="Horarios de Lunes a Viernes">Lunes a Viernes</button>
+            <button class="day-btn active" data-day="weekdays" aria-label="Horarios de Lunes a Viernes">Lunes a
+              Viernes</button>
             <button class="day-btn" data-day="saturdays" aria-label="Horarios de Sábados">Sábados</button>
-            <button class="day-btn" data-day="sundays" aria-label="Horarios de Domingos y Feriados">Domingos / Feriados</button>
+            <button class="day-btn" data-day="sundays" aria-label="Horarios de Domingos y Feriados">Domingos /
+              Feriados</button>
           </div>
         </div>
 
@@ -221,7 +287,8 @@
         <div class="map-header">
           <div class="map-title-group">
             <h2>Ubicación de Terminales y Paradas</h2>
-            <p>Explora en el mapa interactivo la ubicación exacta de las terminales y puntos de salida del Valle de Uco y Mendoza.</p>
+            <p>Explora en el mapa interactivo la ubicación exacta de las terminales y puntos de salida del Valle de Uco
+              y Mendoza.</p>
           </div>
           <div class="map-chip-list" id="map-chip-list"></div>
         </div>
@@ -236,31 +303,91 @@
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-left">
-        <img src="assets/LOGO-TUPUNGATO-BLANCO-HORIZONTAL-e1731412438958-1024x445.png" alt="Municipalidad de Tupungato" class="footer-muni-logo">
+        <img src="assets/Bondi-Hora 1-1 (blanco).png" alt="Bondi-Hora"
+          style="height: 90px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
         <div class="footer-info">
-          <h3>Municipalidad de Tupungato</h3>
-          <p><strong>Dirección:</strong> Avenida Belgrano 348</p>
-          <p><strong>Email:</strong> info@tupungato.gov.ar</p>
-          <p><strong>Teléfono:</strong> +549 2622467689</p>
+          <p style="font-size: 0.9rem; color: #a7c4b5; letter-spacing: 0.02em;">&copy; 2026 Roy Bruna &mdash; Todos los
+            derechos reservados.</p>
+          <p><strong>GitHub:</strong> <a href="https://github.com/RoyBruna" target="_blank" rel="noopener"
+              style="color: #60a5fa; text-decoration: underline;">RoyBruna</a></p>
+          <p><strong>Email:</strong> roybruna1580@gmail.com</p>
+          <p><strong>Teléfono:</strong> +54 9 2622 316913</p>
+          <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">Equipo:
+            <code>Print("EstoyCansadoJefe")</code>
+          </p>
         </div>
       </div>
 
-      <div class="footer-socials" aria-label="Redes sociales institucionales">
-        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube" class="social-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#fff"/></svg>
-        </a>
+      <div class="footer-right" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+        <button id="btn-donar" type="button"
+          style="background-color: #facc15; color: #854d0e; font-weight: bold; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; transition: transform 0.2s;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          Donar al Proyecto
+        </button>
+        <div class="footer-socials" aria-label="Redes sociales del desarrollador">
+          <a href="https://github.com/RoyBruna" target="_blank" rel="noopener" aria-label="GitHub" class="social-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </footer>
+
+  <div id="donate-modal" class="modal-backdrop" style="display: none;" aria-labelledby="donate-title" role="dialog"
+    aria-modal="true">
+    <div class="modal-card" style="max-width: 450px; width: 90%; background: var(--surface-card);">
+      <div class="modal-header">
+        <h2 id="donate-title" class="text-xl font-bold flex items-center gap-2">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="#f59e0b">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          Apoyar el Proyecto
+        </h2>
+        <button id="close-donate-modal" class="btn-close" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 20px 10px;">
+        <p class="mb-5 text-sm text-slate-600 dark:text-slate-300">Bondi-Hora es un proyecto independiente desarrollado
+          por Roy Bruna. ¡Tu aporte me ayuda a mantener los servidores activos y seguir mejorando la app!</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <!-- Opción Argentina -->
+          <div style="border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span style="font-size: 1.5rem;">🇦🇷</span>
+              <h4 style="font-weight: bold; margin: 0;">Desde Argentina (Mercado Pago)</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; margin-bottom: 8px;">Podés aportar donando al siguiente alias:</p>
+            <div
+              style="background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+              <code id="mp-alias" style="font-size: 1.1rem; font-weight: bold; color: #009ee3;">roy.bruna.mp</code>
+              <button onclick="navigator.clipboard.writeText('roy.bruna.mp').then(()=>alert('¡Alias copiado!'))"
+                style="background: #009ee3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Copiar</button>
+            </div>
+          </div>
+
+          <!-- Opción Extranjero -->
+          <div style="border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span style="font-size: 1.5rem;">🌎</span>
+              <h4 style="font-weight: bold; margin: 0;">Desde el Exterior (USD)</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; margin-bottom: 10px;">Podés invitarme un café a través de Buy Me a
+              Coffee:</p>
+            <a href="https://buymeacoffee.com/roybruna" target="_blank" rel="noopener"
+              style="display: block; background: #FFDD00; color: #000000; text-align: center; padding: 10px; border-radius: 6px; font-weight: bold; text-decoration: none;">☕
+              Buy Me a Coffee</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="alarm-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-card">
@@ -286,7 +413,8 @@
         </div>
 
         <div class="alarm-sound-notice">
-          <span class="bell-icon">🔔</span> Te avisaremos con sonido y notificación en tu pantalla cuando sea el momento de salir.
+          <span class="bell-icon">🔔</span> Te avisaremos con sonido y notificación en tu pantalla cuando sea el momento
+          de salir.
         </div>
       </div>
       <div class="modal-footer">
@@ -310,7 +438,8 @@
 
 
   <!-- Modal Changelog Profesional -->
-  <div id="changelog-modal" class="modal-backdrop" style="display: none;" aria-labelledby="changelog-title" role="dialog" aria-modal="true">
+  <div id="changelog-modal" class="modal-backdrop" style="display: none;" aria-labelledby="changelog-title"
+    role="dialog" aria-modal="true">
     <div class="modal-card" style="max-width: 600px; width: 90%; background: var(--surface-card);">
       <div class="modal-header">
         <h2 id="changelog-title" class="text-xl font-bold">Historial de Novedades</h2>
@@ -323,7 +452,8 @@
   </div>
 
   <!-- Contenedor de Alertas en Vivo (Lado Derecho) -->
-  <div id="live-alerts-container" style="position: fixed; top: 80px; right: 20px; width: 300px; max-width: calc(100vw - 40px); z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  <div id="live-alerts-container"
+    style="position: fixed; top: 80px; right: 20px; width: 300px; max-width: calc(100vw - 40px); z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
     <!-- Renderizado por JS -->
   </div>
 
@@ -334,4 +464,5 @@
   <script src="js/app.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
+
 </html>
