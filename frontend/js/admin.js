@@ -327,16 +327,25 @@ async function createAlert() {
   const title = document.getElementById('alertTitle').value.trim();
   const detail = document.getElementById('alertDetail').value.trim();
   const severity = document.getElementById('alertSeverity').value;
+  const duration = document.getElementById('alertDuration').value;
+
   if (!tag || !title || !detail) { toast('Complete todos los campos.', 'error'); return; }
+  
+  const payload = { tag, title, detail, severity };
+  if (duration && !isNaN(duration)) {
+    payload.expiresInHours = parseInt(duration, 10);
+  }
+
   const res = await fetch(API + '/alerts', {
     method: 'POST',
     headers: { Authorization: token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tag, title, detail, severity })
+    body: JSON.stringify(payload)
   });
   if (res.ok) {
     document.getElementById('alertTag').value = '';
     document.getElementById('alertTitle').value = '';
     document.getElementById('alertDetail').value = '';
+    document.getElementById('alertDuration').value = '';
     toast('Alerta emitida al sistema.', 'success');
     loadAlerts();
   } else { toast('Error al crear alerta.', 'error'); }
