@@ -659,8 +659,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="bus-card-left">
             <div class="bus-time">${bus.time} <small class="time-unit">hs</small></div>
             <div class="bus-company-info">
-              <div class="company-name">${bus.company}</div>
-              <div class="via-text">${bus.via} • ${bus.service}</div>
+              <div class="company-name" style="font-size: 1rem; margin-bottom: 2px;">${bus.via} • ${bus.service}</div>
+              <div class="via-text" style="font-size: 0.85rem;">${bus.company}</div>
             </div>
           </div>
           <div class="bus-card-right">
