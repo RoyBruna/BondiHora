@@ -4,7 +4,7 @@
 
 Este proyecto es una aplicación web rápida y sencilla para consultar los horarios de salida de colectivos desde la terminal.
 
->🟩 **Estado:** El proyecto se encuentra actualmente en versión **1.9.2**
+>🟩 **Estado:** El proyecto se encuentra actualmente en versión **1.9.3**
 
 
 
@@ -31,4 +31,5 @@ Este proyecto es una aplicación web rápida y sencilla para consultar los horar
 -1.9: Donaciones, Fix en recorridos de Tupungato, Licencia, Logo de BondiHora. :3
 -1.9.1: Fix en el panel admin.
 -1.9.2: UI/UX Fix.
+-1.9.3: pequeños cambios.
 ```
